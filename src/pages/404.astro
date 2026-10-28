@@ -3,7 +3,12 @@
 import Frame from '../layouts/Frame.astro';
 ---
 
-<Frame title="Not here · Victor Saly · Skills" description="This page does not exist." path="/404">
+<Frame
+  title="Not here · Victor Saly · Skills"
+  description="This page does not exist."
+  path="/404"
+  card={{ path: '/og/hub.png', alt: 'Victor Saly · Skills: agent skills for Claude Code, Codex and Cursor.' }}
+>
   <section class="wrap gone">
     <h1>Nothing at this address.</h1>
     <p><a href="/">See all the skills</a></p>

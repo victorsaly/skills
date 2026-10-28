@@ -8,12 +8,29 @@ import SideShotMark from '../components/SideShotMark.astro';
 import SideShotWordmark from '../components/SideShotWordmark.astro';
 
 const skills = (await getCollection('skills')).sort((a, b) => a.data.order - b.data.order);
+const site = 'https://skills.victorsaly.com';
+const data = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Victor Saly · Skills',
+    url: `${site}/`,
+    author: { '@type': 'Person', name: 'Victor Saly', url: 'https://victorsaly.com' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: skills.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.data.name, url: `${site}/${s.id}` })),
+  },
+];
 ---
 
 <Frame
-  title="Victor Saly · Skills for your coding agent"
-  description="Small skills for any coding agent that reads Agent Skills, each made for a real project first."
+  title="Agent skills for Claude Code, Codex and Cursor · Victor Saly"
+  description="Small, free agent skills for Claude Code, Codex, Cursor and any agent that reads Agent Skills. First: SideShot, before-and-after screenshots for pull requests."
   path="/"
+  card={{ path: '/og/hub.png', alt: 'Victor Saly · Skills: agent skills for Claude Code, Codex and Cursor. First: SideShot, before and after for every PR.' }}
+  data={data}
 >
   <section class="intro wrap">
     <h1>Skills for your coding agent.</h1>

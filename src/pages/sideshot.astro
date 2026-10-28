@@ -17,26 +17,63 @@ const pictures = [
   { device: 'Phone', size: '390×844', before: 'gate-before-phone', after: 'gate-after-phone', w: 390, h: 844 },
   { device: 'Dark', size: '1280×900', before: 'gate-before-dark', after: 'gate-after-dark', w: 1280, h: 900 },
 ];
+
+const site = 'https://skills.victorsaly.com';
+const description =
+  'Before-and-after screenshots for every pull request that changes your UI, on desk and phone, put in the PR by Claude Code, Codex, Cursor or any agent.';
+// What search engines are told: only what the page shows. Free, MIT, source on GitHub; no ratings, no counts.
+const data = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SideShot',
+    description,
+    url: `${site}/sideshot`,
+    image: `${site}/og/sideshot.png`,
+    applicationCategory: 'DeveloperApplication',
+    applicationSubCategory: 'Agent Skill',
+    operatingSystem: 'macOS, Linux, Windows',
+    softwareRequirements: 'Node.js, Playwright, a coding agent that reads Agent Skills',
+    license: 'https://opensource.org/licenses/MIT',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    sameAs: [skill.repo],
+    author: { '@type': 'Person', name: 'Victor Saly', url: 'https://victorsaly.com' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Skills', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'SideShot', item: `${site}/sideshot` },
+    ],
+  },
+];
 ---
 
 <Frame
-  title="SideShot: before and after, for every pull request"
-  description={skill.summary}
+  title="SideShot: before-and-after screenshots for pull requests"
+  description={description}
   path="/sideshot"
   skill={{ name: skill.name, href: '/sideshot' }}
   repo={skill.repo}
+  card={{ path: '/og/sideshot.png', alt: 'SideShot: before-and-after screenshots of your UI change, in every pull request. A real before and after from a pull request, on a phone.' }}
+  data={data}
 >
   <SideShotMark slot="skill-mark" size={14} />
 
   <section class="head wrap" aria-labelledby="title">
-    <h1 id="title"><span class="ask">“</span><SideShotWordmark /> this PR<span class="ask">”</span></h1>
+    <h1 id="title">
+      <span class="say"><span class="ask">“</span><SideShotWordmark /> this PR<span class="ask">”</span></span>{' '}
+      <span class="plain">Before-and-after screenshots of your UI change, in every pull request.</span>
+    </h1>
     <p class="meta">
       <span class="pill"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M6 8.5v7"></path><path d="M18 15.5V9a3 3 0 0 0-3-3h-4"></path><path d="m13 3.5-2.5 2.5 2.5 2.5"></path></svg>Open</span>
       <span><b>victorsaly</b> wants to merge <code>sideshot</code> into <code>your-agent</code></span>
     </p>
     <p class="lede">
-      Before-and-after screenshots for every pull request that changes what people see. Say it to your coding agent:
-      it pictures the part that changed on a desk and a phone, shows you first, then puts the table in the PR.
+      Say it to your coding agent: it pictures the part that changed on a desk and a phone, shows you first, then puts
+      the table in the PR.
     </p>
     <div class="cta">
       <InstallLine command={skill.install} label="Install SideShot" />
@@ -201,9 +238,22 @@ const pictures = [
     letter-spacing: -0.03em;
     line-height: 1;
   }
+  .say {
+    display: block;
+  }
   .ask {
     color: var(--hush);
     font-weight: 400;
+  }
+  /* What SideShot is, in plain words, before anything clever: the second line of the heading. */
+  .plain {
+    display: block;
+    margin-top: 14px;
+    max-width: 34ch;
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
   }
   .meta {
     display: flex;
