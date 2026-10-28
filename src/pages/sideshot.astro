@@ -90,6 +90,19 @@ const data = [
 
   <section id="conversation" class="conversation wrap" aria-labelledby="conversation-title">
     <h2 id="conversation-title" class="visually-hidden">What SideShot puts in a pull request</h2>
+    <div class="comment film" id="film">
+      <p class="comment-head">
+        <span class="who"><SideShotMark size={16} /><span><b>victorsaly</b> attached a film: SideShot, start to finish, in 36 seconds</span></span>
+      </p>
+      <div class="comment-body">
+        <video controls playsinline preload="none" poster="/sideshot/film/sideshot.jpg" width="1920" height="1080">
+          <source src="/sideshot/film/sideshot.mp4" type="video/mp4" />
+          <track kind="captions" src="/sideshot/film/sideshot.vtt" srclang="en" label="English" default />
+          <a href="/sideshot/film/sideshot.mp4">Watch the film (MP4, 7 MB)</a>
+        </video>
+        <p class="md-sub">Filmed on a demo pricing page, not a real product: every picture in it was taken by SideShot, with the output it printed. Sound on.</p>
+      </div>
+    </div>
     <div class="comment">
       <p class="comment-head">
         <span class="who"><SideShotMark size={16} /><span><b>SideShot</b> wrote this table into <a class="nowrap" href={pr}>agentic-blog #151</a> <span class="merged">Merged</span></span></span>
@@ -362,6 +375,19 @@ const data = [
     padding: 10px 0 18px;
     display: grid;
     gap: 10px;
+  }
+  /* The film comes first, a comment of its own above the table. */
+  .film {
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+  .film video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    background: var(--ink);
+    border: var(--hair) solid var(--ink);
   }
   .md-row {
     display: flex;
