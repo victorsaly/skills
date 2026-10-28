@@ -1,0 +1,62 @@
+{
+  "title": "skills.victorsaly.com/sideshot: choose the page's structure",
+  "question": "The look is settled (your monochrome frame, SideShot's ink and marigold). Pick how the page is built. Every option leads with the real before/after pictures and ends at the install command.",
+  "options": [
+    {
+      "id": "split",
+      "label": "The page is the mark",
+      "kicker": "THE ROLL",
+      "lineage": "SideShot's own mark: two squares, before in ink, after in marigold",
+      "thesis": "The whole page splits like the logo: a before half and an after half, scrolling in step.",
+      "palette": ["#000000", "#ffffff", "#ffc400"],
+      "materials": ["ink rules", "real screenshots", "marigold field"],
+      "viewport": "Left half: 'Before: you read a diff.' Right half, marigold rule: 'After: you see it.' The real #151 pictures under each; the install command sits across the seam.",
+      "risk": "On a phone the halves stack, so the side-by-side lives only on wide screens.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "Victor Saly · Skills / SideShot", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "BEFORE half: picture", "x": 0, "y": 1, "w": 6, "h": 6},
+        {"label": "AFTER half: picture, rings", "x": 6, "y": 1, "w": 6, "h": 6, "accent": true},
+        {"label": "npx skills add victorsaly/sideshot -g  [Copy]", "x": 2, "y": 7, "w": 8, "h": 1, "accent": true},
+        {"label": "rings · devices · install · options", "x": 0, "y": 8, "w": 12, "h": 2}
+      ]},
+      "comp": ".impeccable/mocks/decision/split.webp"
+    },
+    {
+      "id": "slider",
+      "label": "Drag to see the change",
+      "lineage": "before/after comparison viewers",
+      "thesis": "One real picture fills the first screen; you drag the divider and the change appears under your hand.",
+      "palette": ["#000000", "#ffffff", "#ffc400"],
+      "materials": ["full-width screenshot", "marigold divider", "ink type"],
+      "viewport": "Wordmark and one line on top, the #151 gate full width with a draggable marigold divider, install command right under it.",
+      "risk": "A slider is a familiar device; it lands only because the picture is real and the rings show.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "SideShot · See the change. Side by side.", "x": 0, "y": 0, "w": 12, "h": 2},
+        {"label": "before | drag | after (real picture)", "x": 0, "y": 2, "w": 12, "h": 5, "accent": true},
+        {"label": "npx skills add victorsaly/sideshot -g  [Copy]", "x": 3, "y": 7, "w": 6, "h": 1, "accent": true},
+        {"label": "desk · phone · dark · rings", "x": 0, "y": 8, "w": 12, "h": 2}
+      ]},
+      "comp": ".impeccable/mocks/decision/slider.webp"
+    },
+    {
+      "id": "diff",
+      "label": "The page is a pull request",
+      "lineage": "a GitHub PR description and its diff",
+      "thesis": "The page reads like the PR SideShot writes into: a title, the table, and the install as the last added line.",
+      "palette": ["#000000", "#ffffff", "#ffc400", "#8a8a8a"],
+      "materials": ["diff gutters", "PR table", "monospace lines"],
+      "viewport": "A PR header 'SideShot this PR', then the real before/after table as GitHub shows it, then '+ npx skills add victorsaly/sideshot -g'.",
+      "risk": "Developers get the joke fast; it must not outlast its clarity for someone who has never opened a PR table.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "PR #  SideShot this PR", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "| Before | After | table (real)", "x": 0, "y": 1, "w": 12, "h": 5},
+        {"label": "+ npx skills add victorsaly/sideshot -g", "x": 0, "y": 6, "w": 12, "h": 1, "accent": true},
+        {"label": "hunks: rings, devices, options", "x": 0, "y": 7, "w": 12, "h": 3}
+      ]},
+      "comp": ".impeccable/mocks/decision/diff.webp"
+    }
+  ],
+  "reroll": true,
+  "steer": true,
+  "buildPath": {"value": "code", "toggle": false}
+}

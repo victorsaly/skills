@@ -1,0 +1,11 @@
+// Why: the site is static assets on a Worker, like blog.victorsaly.com. The custom domain is claimed here, so the
+// deploy creates the DNS record; workers.dev stays off so there is one address.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "victorsaly-skills",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./dist", "not_found_handling": "404-page", "html_handling": "drop-trailing-slash" },
+  "routes": [{ "pattern": "skills.victorsaly.com", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false
+}

@@ -1,0 +1,129 @@
+---
+// Why: the hub. It lists every skill from src/content/skills, newest decisions first, each with its install line
+// and a way into its own page. Quiet on purpose: each skill page carries its own brand.
+import { getCollection } from 'astro:content';
+import Frame from '../layouts/Frame.astro';
+import InstallLine from '../components/InstallLine.astro';
+import SideShotMark from '../components/SideShotMark.astro';
+import SideShotWordmark from '../components/SideShotWordmark.astro';
+
+const skills = (await getCollection('skills')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Frame
+  title="Victor Saly · Skills for your coding agent"
+  description="Small skills for any coding agent that reads Agent Skills, each made for a real project first."
+  path="/"
+>
+  <section class="intro wrap">
+    <h1>Skills for your coding agent.</h1>
+    <p class="lede">
+      Small, single-purpose skills for Claude Code, Codex, Cursor, OpenCode and any agent that reads Agent Skills. Each
+      one was made for a real project first, then published.
+    </p>
+  </section>
+
+  <ul class="list wrap" aria-label="Skills">
+    {
+      skills.map((s) => (
+        <li class="skill">
+          <a class="name" href={`/${s.id}`}>
+            {s.id === 'sideshot' ? (
+              <>
+                <SideShotMark size={30} />
+                <SideShotWordmark />
+              </>
+            ) : (
+              s.data.name
+            )}
+          </a>
+          <div class="about">
+            <p class="tagline">{s.data.tagline}</p>
+            <p>{s.data.summary}</p>
+            <p class="links">
+              <a href={`/${s.id}`}>See it at work</a> · <a href={s.data.repo}>Source</a>
+            </p>
+          </div>
+          <div class="get">
+            <InstallLine command={s.data.install} label={`Install ${s.data.name}`} />
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="more wrap">One so far. More when they have earned their place in a real project.</p>
+</Frame>
+
+<style>
+  .intro {
+    padding-top: clamp(48px, 9vw, 112px);
+    display: grid;
+    gap: 20px;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 1.4rem + 5.2vw, 5.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    max-width: 14ch;
+  }
+  .lede {
+    max-width: 56ch;
+    font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem);
+    color: var(--quiet);
+  }
+  .list {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(48px, 7vw, 80px);
+    border-top: var(--heavy) solid var(--ink);
+  }
+  .skill {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 18px 48px;
+    padding: 32px 0;
+    border-bottom: var(--hair) solid var(--ink);
+  }
+  .name {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(2rem, 1.5rem + 2vw, 3.2rem);
+    text-decoration: none;
+    align-self: start;
+  }
+  .name:hover :global(.wordmark) {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.12em;
+  }
+  .about {
+    display: grid;
+    gap: 8px;
+    max-width: var(--measure);
+  }
+  .tagline {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .links {
+    font-weight: 700;
+  }
+  .get {
+    grid-column: 2;
+    max-width: 640px;
+  }
+  .more {
+    margin-top: 20px;
+    color: var(--quiet);
+  }
+  @media (max-width: 760px) {
+    .skill {
+      grid-template-columns: 1fr;
+    }
+    .get {
+      grid-column: 1;
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+// Why: the page's one action. The install command is written as an added line of a diff; Copy puts it on the
+// clipboard, and the line answers by turning marigold with a tick in its gutter.
+interface Props {
+  command: string;
+  /** Says what the line is for to a screen reader, e.g. "Install SideShot". */
+  label: string;
+}
+const { command, label } = Astro.props;
+---
+
+<div class="install" data-install role="group" aria-label={label}>
+  <span class="gutter" aria-hidden="true">
+    <span class="plus">+</span>
+    <svg class="tick" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
+  </span>
+  <code class="cmd">{command}</code>
+  <button type="button" class="copy" data-command={command}>
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="1"></rect><path d="M5 15V5a1 1 0 0 1 1-1h10"></path></svg>
+    <span class="word">Copy</span>
+  </button>
+  <span class="status visually-hidden" aria-live="polite"></span>
+</div>
+
+<script>
+  for (const line of document.querySelectorAll<HTMLElement>('[data-install]')) {
+    const button = line.querySelector<HTMLButtonElement>('.copy');
+    const word = line.querySelector<HTMLElement>('.word');
+    const status = line.querySelector<HTMLElement>('.status');
+    const code = line.querySelector<HTMLElement>('.cmd');
+    let timer = 0;
+    button?.addEventListener('click', async () => {
+      const command = button.dataset['command'] ?? '';
+      try {
+        await navigator.clipboard.writeText(command);
+      } catch {
+        // No clipboard (an old browser, an insecure page): select the command so the reader can copy it.
+        if (code) window.getSelection()?.selectAllChildren(code);
+        if (status) status.textContent = 'Selected. Press Ctrl or Cmd and C to copy.';
+        return;
+      }
+      line.dataset['copied'] = '';
+      if (word) word.textContent = 'Copied';
+      if (status) status.textContent = 'Copied to the clipboard.';
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        delete line.dataset['copied'];
+        if (word) word.textContent = 'Copy';
+        if (status) status.textContent = '';
+      }, 2400);
+    });
+  }
+</script>
+
+<style>
+  .install {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr auto;
+    align-items: stretch;
+    border: var(--strong) solid var(--ink);
+    background: var(--paper);
+    transition: background-color 220ms var(--ease-out);
+  }
+  .gutter {
+    display: grid;
+    place-items: center;
+    border-right: var(--hair) solid var(--ink);
+    background: var(--mark);
+    color: var(--mark-ink);
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .tick {
+    display: none;
+  }
+  .cmd {
+    align-self: center;
+    padding: 14px 16px;
+    font-size: clamp(0.88rem, 0.8rem + 0.4vw, 1.05rem);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    border-left: var(--strong) solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font: inherit;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0 20px;
+    min-height: 52px;
+    cursor: pointer;
+    transition: transform 140ms var(--ease-out);
+  }
+  .copy:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  .copy:active {
+    transform: scale(0.97);
+  }
+  .copy:focus-visible {
+    outline-offset: -7px;
+    outline-color: var(--paper);
+  }
+  .install[data-copied] {
+    background: var(--mark);
+  }
+  .install[data-copied] .cmd {
+    color: var(--mark-ink);
+  }
+  .install[data-copied] .plus {
+    display: none;
+  }
+  .install[data-copied] .tick {
+    display: block;
+  }
+  @media (max-width: 480px) {
+    .install {
+      grid-template-columns: 2rem 1fr;
+    }
+    .copy {
+      grid-column: 1 / -1;
+      justify-content: center;
+      border-left: 0;
+      border-top: var(--strong) solid var(--ink);
+    }
+  }
+</style>

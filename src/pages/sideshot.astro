@@ -1,0 +1,590 @@
+---
+// Why: SideShot's landing page is written as the pull request SideShot writes into: a title, the before/after
+// table it put in a real PR, the capabilities as hunks, and the install command as the line that merges.
+import { getEntry } from 'astro:content';
+import Frame from '../layouts/Frame.astro';
+import InstallLine from '../components/InstallLine.astro';
+import SideShotMark from '../components/SideShotMark.astro';
+import SideShotWordmark from '../components/SideShotWordmark.astro';
+
+const entry = await getEntry('skills', 'sideshot');
+if (!entry) throw new Error('src/content/skills/sideshot.md is missing');
+const skill = entry.data;
+
+const pr = 'https://github.com/victorsaly/agentic-blog/pull/151';
+const pictures = [
+  { device: 'Desk', size: '1280×900', before: 'gate-before-desk', after: 'gate-after-desk', w: 1280, h: 900 },
+  { device: 'Phone', size: '390×844', before: 'gate-before-phone', after: 'gate-after-phone', w: 390, h: 844 },
+  { device: 'Dark', size: '1280×900', before: 'gate-before-dark', after: 'gate-after-dark', w: 1280, h: 900 },
+];
+---
+
+<Frame
+  title="SideShot: before and after, for every pull request"
+  description={skill.summary}
+  path="/sideshot"
+  skill={{ name: skill.name, href: '/sideshot' }}
+  repo={skill.repo}
+>
+  <SideShotMark slot="skill-mark" size={14} />
+
+  <section class="head wrap" aria-labelledby="title">
+    <h1 id="title"><span class="ask">“</span><SideShotWordmark /> this PR<span class="ask">”</span></h1>
+    <p class="meta">
+      <span class="pill"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M6 8.5v7"></path><path d="M18 15.5V9a3 3 0 0 0-3-3h-4"></path><path d="m13 3.5-2.5 2.5 2.5 2.5"></path></svg>Open</span>
+      <span><b>victorsaly</b> wants to merge <code>sideshot</code> into <code>your-agent</code></span>
+    </p>
+    <p class="lede">
+      Before-and-after screenshots for every pull request that changes what people see. Say it to your coding agent:
+      it pictures the part that changed on a desk and a phone, shows you first, then puts the table in the PR.
+    </p>
+    <div class="cta">
+      <InstallLine command={skill.install} label="Install SideShot" />
+      <p class="works">
+        For any agent that reads Agent Skills: Claude Code, Codex, Cursor, OpenCode. <a href={skill.repo}>Read the source</a>
+      </p>
+    </div>
+  </section>
+
+  <nav class="tabs wrap" aria-label="On this page">
+    <a href="#conversation" class="on">Conversation</a>
+    <a href="#files">Files changed <span class="count">4</span></a>
+    <a href="#merge">Merge</a>
+  </nav>
+
+  <section id="conversation" class="conversation wrap" aria-labelledby="conversation-title">
+    <h2 id="conversation-title" class="visually-hidden">What SideShot puts in a pull request</h2>
+    <div class="comment">
+      <p class="comment-head">
+        <span class="who"><SideShotMark size={16} /><span><b>SideShot</b> wrote this table into <a class="nowrap" href={pr}>agentic-blog #151</a> <span class="merged">Merged</span></span></span>
+      </p>
+      <div class="comment-body">
+        <div class="md-row">
+          <h3 class="md-h2">Before and after</h3>
+          <p class="md-strong">The merge gate while other steps still work</p>
+        </div>
+        <div class="table" role="group" aria-label="Before and after, three ways">
+          <div class="cols" aria-hidden="true"><span></span><span>Before</span><span>After</span></div>
+          {
+            pictures.map((p) => (
+              <figure class:list={['row', p.device.toLowerCase()]}>
+                <figcaption>
+                  <b>{p.device}</b>
+                  <span>{p.size}</span>
+                </figcaption>
+                <a href={`/sideshot/pr151/${p.before}.png`} class="shot">
+                  <img
+                    src={`/sideshot/pr151/${p.before}.png`}
+                    width={p.w}
+                    height={p.h}
+                    loading={p.device === 'Desk' ? 'eager' : 'lazy'}
+                    alt={`Before, ${p.device.toLowerCase()}: the merge gate says “Needs you”, but its Approve button is greyed out while Citations and Drilldown still work.`}
+                  />
+                </a>
+                <a href={`/sideshot/pr151/${p.after}.png`} class="shot">
+                  <img
+                    src={`/sideshot/pr151/${p.after}.png`}
+                    width={p.w}
+                    height={p.h}
+                    loading={p.device === 'Desk' ? 'eager' : 'lazy'}
+                    alt={`After, ${p.device.toLowerCase()}: the gate says “Waiting on 2 steps, opens when Citations and Drilldown finish”, and the button reads “Opens when they finish”.`}
+                  />
+                </a>
+              </figure>
+            ))
+          }
+        </div>
+        <p class="md-sub">Before: main · After: this branch · made with SideShot. On a wide screen the phone pair is cropped to the change; open any picture for the whole screen.</p>
+      </div>
+    </div>
+    <p class="caption">
+      A real table from a real pull request. Before, the gate said <q>Needs you</q> for a merge you could not make
+      yet; after, it says what it waits for. A reviewer sees that in one look instead of imagining it from the diff.
+    </p>
+  </section>
+
+  <section id="files" class="files wrap" aria-labelledby="files-title">
+    <h2 id="files-title" class="files-title">Files changed <span class="count">4</span></h2>
+
+    <article class="hunk" aria-labelledby="h-rings">
+      <header class="hunk-head">
+        <h3 id="h-rings">What changed, said on the picture</h3>
+        <code>@@ --note "selector=what changed" --mark-changes @@</code>
+      </header>
+      <div class="hunk-body split">
+        <ul class="adds">
+          <li>A numbered ring around what the change is about; its words go under the table.</li>
+          <li>A box around everything else that differs, and a dashed rule where something was taken out.</li>
+          <li>Rows are lined up like a text diff, so content that only moved is left alone.</li>
+          <li>Marks are marigold, unless your page is marigold too; then SideShot picks the colour your pictures use least.</li>
+        </ul>
+        <figure class="pair">
+          <img src="/sideshot/marks/before-phone.png" width="780" height="1021" loading="lazy" alt="Before, on a phone: the merge gate with a paragraph saying Citations and Drilldown are still working, and a greyed-out Approve button." />
+          <img src="/sideshot/marks/after-phone.png" width="780" height="775" loading="lazy" alt="After, on a phone: a marigold ring numbered 1 around the Approve and merge button, a box around the changed buttons, and a dashed rule where the paragraph was removed." />
+          <figcaption>The same gate, with <code>--note</code> and <code>--mark-changes</code>.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-screens">
+      <header class="hunk-head">
+        <h3 id="h-screens">Your screens, not ours</h3>
+        <code>@@ --devices desk,phone @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>Desk and phone by default: a web browser at 1280×900 and a mobile one at 390×844, both at 2x.</li>
+          <li>Or name them: <code>tablet</code>, <code>laptop</code>, <code>wide</code>, any size like <code>1440x900</code>, or your own, like <code>pixel=412x915:mobile</code>.</li>
+          <li>Light and dark with <code>--schemes light,dark</code>, when the change touches colour.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-agents">
+      <header class="hunk-head">
+        <h3 id="h-agents">One skill, any agent</h3>
+        <code>@@ SKILL.md @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>Written in the open Agent Skills format: Claude Code, Codex, Cursor, OpenCode and others read it.</li>
+          <li>Your agent works out the page and the parts from your diff, so the ask is one sentence.</li>
+          <li>Playwright comes from your project; if it is missing, your agent asks before adding it.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-light">
+      <header class="hunk-head">
+        <h3 id="h-light">Stays out of your code</h3>
+        <code>@@ --update-pr @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>You see the pictures first. Nothing is pushed until you have.</li>
+          <li>They live on a <code>sideshot</code> branch that never merges, so the code stays light.</li>
+          <li>The table goes between markers in the PR description; running again replaces it instead of adding another.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section id="merge" class="merge wrap" aria-labelledby="merge-title">
+    <h2 id="merge-title">Merge <SideShotWordmark /> into your agent</h2>
+    <p class="checks">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
+      No conflicts. MIT licence. Needs Node; uses your project's Playwright.
+    </p>
+    <InstallLine command={skill.install} label="Install SideShot" />
+    <p class="then">Then, on a branch with a pull request, ask: <q>SideShot this PR.</q></p>
+    <details class="other">
+      <summary>Claude Code plugin, or by hand</summary>
+      <div class="other-body">
+        <p>As a Claude Code plugin, so updates come through <code>/plugin</code>:</p>
+        <pre><code>/plugin marketplace add victorsaly/sideshot
+/plugin install sideshot@sideshot</code></pre>
+        <p>By hand, with no agent: copy <code>skills/sideshot/</code> from <a href={skill.repo}>the repo</a> and run its script; the README lists every option.</p>
+      </div>
+    </details>
+  </section>
+</Frame>
+
+<style>
+  .head {
+    padding-top: clamp(20px, 2vw, 28px);
+    display: grid;
+    gap: 12px;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 1.3rem + 4.4vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .ask {
+    color: var(--hush);
+    font-weight: 400;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    color: var(--quiet);
+  }
+  .meta b {
+    color: var(--ink);
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--mark);
+    color: var(--mark-ink);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 4px 12px 4px 10px;
+    border-radius: 999px;
+  }
+  .lede {
+    max-width: 76ch;
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.25rem);
+  }
+  .cta {
+    display: grid;
+    gap: 12px;
+    max-width: 720px;
+  }
+  .works {
+    font-size: 0.95rem;
+    color: var(--quiet);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 12px;
+    border-bottom: var(--hair) solid var(--ink);
+    overflow-x: auto;
+  }
+  .tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px clamp(10px, 2vw, 16px);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: var(--strong) solid transparent;
+    margin-bottom: -2px;
+  }
+  .tabs a:hover {
+    border-bottom-color: var(--rule);
+  }
+  .tabs a.on {
+    font-weight: 700;
+    border-bottom-color: var(--mark);
+  }
+  .count {
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: var(--hair) solid currentColor;
+    padding: 0 7px;
+    line-height: 1.5;
+  }
+
+  .conversation {
+    padding-top: 20px;
+    scroll-margin-top: 16px;
+  }
+  .comment {
+    border-top: var(--strong) solid var(--ink);
+    border-bottom: var(--hair) solid var(--ink);
+  }
+  .comment-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: var(--hair) solid var(--rule);
+    font-size: 0.95rem;
+    color: var(--quiet);
+  }
+  .comment-head b {
+    color: var(--ink);
+  }
+  .who {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  .merged {
+    margin-left: 6px;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--ink);
+    border: var(--hair) solid var(--ink);
+    padding: 1px 10px;
+  }
+  .comment-body {
+    padding: 10px 0 18px;
+    display: grid;
+    gap: 10px;
+  }
+  .md-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding-bottom: 6px;
+    border-bottom: var(--hair) solid var(--rule);
+  }
+  .md-h2 {
+    font-size: 1.5rem;
+  }
+  .md-strong {
+    font-weight: 700;
+  }
+  /* The phone pair leads at every width: it is the pair whose change reads in one look. */
+  .table {
+    display: flex;
+    flex-direction: column;
+    border: var(--hair) solid var(--rule);
+  }
+  .phone {
+    order: -1;
+  }
+  .cols {
+    order: -2;
+  }
+  .cols,
+  .row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr 1fr;
+  }
+  .cols span {
+    padding: 8px 14px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-bottom: var(--hair) solid var(--rule);
+  }
+  .cols span + span {
+    border-left: var(--hair) solid var(--rule);
+  }
+  .cols span:last-child {
+    box-shadow: inset 0 -6px 0 var(--mark);
+  }
+  .row {
+    margin: 0;
+    border-bottom: var(--hair) solid var(--rule);
+  }
+  .row:last-child {
+    border-bottom: 0;
+  }
+  .row figcaption {
+    padding: 12px 14px;
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    font-size: 0.95rem;
+  }
+  .row figcaption span {
+    color: var(--quiet);
+    font-size: 0.85rem;
+  }
+  .shot {
+    border-left: var(--hair) solid var(--rule);
+    padding: 12px;
+    display: grid;
+    place-items: start center;
+  }
+  .shot img {
+    border: var(--hair) solid var(--rule);
+    background: #fff;
+  }
+  /* On a desk the phone pair opens at the page's title, where the change is; each links to the whole picture. */
+  .phone .shot img {
+    width: 300px;
+    height: 262px;
+    object-fit: cover;
+    object-position: 50% 56.5%;
+  }
+  .md-sub {
+    font-size: 0.85rem;
+    color: var(--quiet);
+  }
+  .caption {
+    margin-top: 16px;
+    max-width: var(--measure);
+    color: var(--quiet);
+  }
+
+  .files {
+    margin-top: clamp(56px, 8vw, 96px);
+    display: grid;
+    gap: 28px;
+    scroll-margin-top: 16px;
+  }
+  .files-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+    letter-spacing: -0.02em;
+    padding-top: 18px;
+    border-top: var(--heavy) solid var(--ink);
+  }
+  .hunk {
+    border: var(--hair) solid var(--ink);
+  }
+  .hunk-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding: 12px 18px;
+    background: var(--wash);
+    border-bottom: var(--hair) solid var(--ink);
+  }
+  .hunk-head code {
+    color: var(--hush);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+  .hunk-head h3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+    letter-spacing: -0.01em;
+  }
+  .hunk-body {
+    padding: 8px 0;
+  }
+  .hunk-body.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 8px 32px;
+    align-items: start;
+  }
+  .adds {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Each line is an added line of the diff: a marigold + gutter, then the words. */
+  .adds li {
+    position: relative;
+    padding: 8px 18px 8px calc(2.4rem + 14px);
+    max-width: calc(var(--measure) + 2.4rem + 14px);
+  }
+  .adds li::before {
+    content: '+';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2.4rem;
+    padding-top: 8px;
+    font-family: var(--mono);
+    font-weight: 700;
+    text-align: center;
+    color: var(--mark-ink);
+    background: var(--mark);
+  }
+  .pair {
+    margin: 10px 18px 10px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .pair img {
+    border: var(--hair) solid var(--rule);
+  }
+  .pair figcaption {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    color: var(--quiet);
+  }
+
+  .merge {
+    margin-top: clamp(56px, 8vw, 96px);
+    padding-top: 22px;
+    border-top: var(--heavy) solid var(--ink);
+    display: grid;
+    gap: 16px;
+    max-width: 820px;
+    margin-left: max(var(--gutter), calc((100% - var(--page)) / 2));
+    scroll-margin-top: 16px;
+  }
+  .merge h2 {
+    font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3rem);
+    letter-spacing: -0.025em;
+  }
+  .checks {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    font-weight: 700;
+  }
+  .checks svg {
+    flex: none;
+    margin-top: 4px;
+  }
+  .then {
+    color: var(--quiet);
+  }
+  .other {
+    border-top: var(--hair) solid var(--rule);
+    padding-top: 12px;
+  }
+  .other summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .other-body {
+    display: grid;
+    gap: 10px;
+    padding-top: 12px;
+  }
+  pre {
+    margin: 0;
+    padding: 14px 16px;
+    background: var(--wash);
+    border: var(--hair) solid var(--rule);
+    overflow-x: auto;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    .tabs a {
+      padding-inline: 8px;
+      font-size: 1rem;
+    }
+    .tabs .count {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .table {
+      border: 0;
+    }
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cols span:first-child {
+      display: none;
+    }
+    .cols span + span {
+      border-left: 0;
+    }
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .row figcaption {
+      grid-column: 1 / -1;
+      grid-template-columns: auto auto;
+      justify-content: start;
+      gap: 8px;
+      padding: 12px 0 4px;
+    }
+    .shot {
+      border-left: 0;
+      padding: 6px 6px 12px 0;
+    }
+    .shot + .shot {
+      padding: 6px 0 12px 6px;
+    }
+    .phone .shot img {
+      width: 100%;
+      height: auto;
+      object-fit: fill;
+    }
+    .hunk-body.split {
+      grid-template-columns: 1fr;
+    }
+    .pair {
+      margin: 4px 14px 10px;
+    }
+  }
+</style>

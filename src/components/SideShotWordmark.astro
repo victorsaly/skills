@@ -1,0 +1,26 @@
+---
+// Why: the name as the brand sets it: Side in ink, Shot in marigold. Marigold letters do not read on white, so on
+// paper Shot carries a marigold underline instead; on charcoal the letters themselves are marigold.
+---
+
+<span class="wordmark">Side<span class="shot">Shot</span></span>
+
+<style>
+  .wordmark {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .shot {
+    text-decoration: underline;
+    text-decoration-color: var(--mark);
+    text-decoration-thickness: 0.17em;
+    text-underline-offset: 0.06em;
+    text-decoration-skip-ink: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .shot {
+      color: var(--mark);
+      text-decoration: none;
+    }
+  }
+</style>

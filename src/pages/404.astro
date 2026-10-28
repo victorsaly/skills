@@ -1,0 +1,23 @@
+---
+// Why: a wrong address still lands inside the frame, with the way back.
+import Frame from '../layouts/Frame.astro';
+---
+
+<Frame title="Not here · Victor Saly · Skills" description="This page does not exist." path="/404">
+  <section class="wrap gone">
+    <h1>Nothing at this address.</h1>
+    <p><a href="/">See all the skills</a></p>
+  </section>
+</Frame>
+
+<style>
+  .gone {
+    padding-top: clamp(48px, 9vw, 112px);
+    display: grid;
+    gap: 16px;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 1.4rem + 3vw, 3.6rem);
+    letter-spacing: -0.03em;
+  }
+</style>

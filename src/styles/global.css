@@ -1,0 +1,126 @@
+/* Why: one set of tokens for the hub and every skill page. Victor's ink language: paper and ink, one marigold,
+   rules in three weights, no shadows. A skill page adds its own brand on top; it never redefines these. */
+@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import '@fontsource-variable/atkinson-hyperlegible-mono';
+
+:root {
+  --paper: #ffffff;
+  --ink: #000000;
+  --quiet: #525252; /* 7.8:1 on paper */
+  --hush: #6b6b6b; /* removed lines and gutters; 5.3:1 */
+  --rule: #cfcfcf;
+  --wash: #f4f4f4; /* the diff's context lines */
+  --mark: #ffc400;
+  --mark-ink: #000000;
+  --font: 'Atkinson Hyperlegible Next Variable', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --heavy: 8px;
+  --strong: 3px;
+  --hair: 1px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --page: 1240px;
+  --measure: 68ch;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1c1c1c; /* charcoal, as on the blog: pure black under white text glares */
+    --ink: #e6e6e6;
+    --quiet: #b0b0b0;
+    --hush: #9a9a9a;
+    --rule: #454545;
+    --wash: #262626;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-color: var(--hush) var(--paper);
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 19px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--mark);
+  color: var(--mark-ink);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.12;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--page));
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}

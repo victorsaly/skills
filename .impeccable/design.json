@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T10:00:00Z",
+  "title": "Design System: Victor Saly · Skills",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#ffffff", "darkCounterpart": "paper-dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#000000", "darkCounterpart": "ink-dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "quiet": { "role": "neutral", "displayName": "Quiet", "canonical": "#525252", "darkCounterpart": "quiet-dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "hush": { "role": "neutral", "displayName": "Hush", "canonical": "#6b6b6b", "darkCounterpart": "hush-dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "rule": { "role": "neutral", "displayName": "Rule", "canonical": "#cfcfcf", "darkCounterpart": "rule-dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "wash": { "role": "neutral", "displayName": "Wash", "canonical": "#f4f4f4", "darkCounterpart": "wash-dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "mark": { "role": "primary", "displayName": "Marigold", "canonical": "#ffc400", "oklch": "oklch(85.0% 0.174 86.6)", "tonalRamp": ["#120900", "#312100", "#533c00", "#775800", "#a17a00", "#cf9c00", "#fcc100", "#ffe549"] },
+      "mark-ink": { "role": "primary", "displayName": "Ink on Marigold", "canonical": "#000000", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "paper-dark": { "role": "neutral", "displayName": "Charcoal Paper", "canonical": "#1c1c1c", "scheme": "dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "ink-dark": { "role": "neutral", "displayName": "Light Ink", "canonical": "#e6e6e6", "scheme": "dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "quiet-dark": { "role": "neutral", "displayName": "Quiet (dark)", "canonical": "#b0b0b0", "scheme": "dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "hush-dark": { "role": "neutral", "displayName": "Hush (dark)", "canonical": "#9a9a9a", "scheme": "dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "rule-dark": { "role": "neutral", "displayName": "Rule (dark)", "canonical": "#454545", "scheme": "dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] },
+      "wash-dark": { "role": "neutral", "displayName": "Wash (dark)", "canonical": "#262626", "scheme": "dark", "tonalRamp": ["#0b0b0b", "#242424", "#404040", "#5d5d5d", "#808080", "#a4a4a4", "#cacaca", "#eeeeee"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The hub's headline, about 14 characters a line." },
+      "display-title": { "displayName": "Display Title", "purpose": "A skill page's title; on SideShot, the PR title with hush quotation marks at weight 400." },
+      "headline": { "displayName": "Headline", "purpose": "A closing section's heading, such as Merge." },
+      "headline-sm": { "displayName": "Headline Small", "purpose": "A section heading that opens a long run of content, such as Files changed." },
+      "title": { "displayName": "Title", "purpose": "A block's heading, such as each hunk's capability." },
+      "lede": { "displayName": "Lede", "purpose": "The paragraph under a title, up to 76 characters a line." },
+      "body": { "displayName": "Body", "purpose": "All prose, tabular figures on, held to the 68ch measure." },
+      "control": { "displayName": "Control", "purpose": "Words on a filled control (Copy)." },
+      "label": { "displayName": "Label", "purpose": "Pill text, table column heads." },
+      "label-sm": { "displayName": "Label Small", "purpose": "The Merged tag, counts, captions under pictures." },
+      "command": { "displayName": "Command", "purpose": "The install command in the Install Line." },
+      "code": { "displayName": "Code", "purpose": "Inline flags, branch names, file names and screen sizes." },
+      "wordmark": { "displayName": "Wordmark", "purpose": "A skill's name set as its brand (SideShot: Side + Shot); size inherits from context." }
+    },
+    "rules": [
+      { "name": "heavy", "value": "8px solid var(--ink)", "token": "--heavy", "purpose": "Opens a big moment: the top of the hub's skill list, Files changed, Merge." },
+      { "name": "strong", "value": "3px solid var(--ink)", "token": "--strong", "purpose": "Above a section or round the one action: the conversation comment's top, the footer's top, the install line's border, the active tab's underline (in marigold)." },
+      { "name": "hair", "value": "1px solid var(--ink)", "token": "--hair", "purpose": "Separates rows and outlines blocks: the frame bar, list rows, hunks, tags. Inside a block, a hairline in var(--rule)." }
+    ],
+    "focus": { "value": "outline: 3px solid var(--ink); outline-offset: 3px", "insideFilled": "outline-color: var(--paper); outline-offset: -7px", "purpose": "Every focusable element; inside the ink Copy button the ring turns paper and sits inside." },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "token": "--ease-out", "purpose": "The only easing; used by the install line." },
+      { "name": "copy-fill", "value": "background-color 220ms var(--ease-out)", "purpose": "The install line filling marigold when copied." },
+      { "name": "copy-press", "value": "transform 140ms var(--ease-out); :active scale(0.97)", "purpose": "The Copy button answering a press." },
+      { "name": "copy-reset", "value": "2400ms", "purpose": "How long Copied holds before the line returns to Copy." },
+      { "name": "reduced-motion", "value": "transition-duration: 0ms; animation-duration: 0ms", "purpose": "Under prefers-reduced-motion every change is instant." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "480px", "purpose": "Copy drops under the command at full width; tabs tighten and hide counts." },
+      { "name": "compact", "value": "560px", "purpose": "The frame's source link keeps only its icon, at a larger tap size." },
+      { "name": "stack", "value": "760px", "purpose": "Hub rows and split hunks stack; the before/after table drops its label column." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Install Line",
+      "kind": "custom",
+      "refersTo": "install-line",
+      "description": "The one action on every page: the install command as an added diff line, with Copy.",
+      "html": "<div class=\"ds-install\" role=\"group\" aria-label=\"Install SideShot\"><span class=\"ds-install-gutter\" aria-hidden=\"true\">+</span><code class=\"ds-install-cmd\">npx skills add victorsaly/sideshot -g</code><button type=\"button\" class=\"ds-install-copy\"><svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"11\" height=\"11\" rx=\"1\"></rect><path d=\"M5 15V5a1 1 0 0 1 1-1h10\"></path></svg><span>Copy</span></button></div>",
+      "css": ".ds-install { display: grid; grid-template-columns: 2.4rem 1fr auto; align-items: stretch; max-width: 720px; border: 3px solid var(--ink, #000); background: var(--paper, #fff); color: var(--ink, #000); transition: background-color 220ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-install-gutter { display: grid; place-items: center; border-right: 1px solid var(--ink, #000); background: var(--mark, #ffc400); color: var(--mark-ink, #000); font-family: var(--mono, ui-monospace, monospace); font-weight: 700; font-size: 1.15rem; } .ds-install-cmd { align-self: center; padding: 14px 16px; font-family: var(--mono, ui-monospace, monospace); font-size: clamp(0.88rem, 0.8rem + 0.4vw, 1.05rem); font-weight: 500; overflow-wrap: anywhere; } .ds-install-copy { display: inline-flex; align-items: center; gap: 8px; border: 0; border-left: 3px solid var(--ink, #000); background: var(--ink, #000); color: var(--paper, #fff); font-family: var(--font, system-ui, sans-serif); font-weight: 700; font-size: 1rem; padding: 0 20px; min-height: 52px; cursor: pointer; transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-install-copy:hover { text-decoration: underline; text-underline-offset: 0.25em; } .ds-install-copy:active { transform: scale(0.97); } .ds-install-copy:focus-visible { outline: 3px solid var(--paper, #fff); outline-offset: -7px; }"
+    },
+    {
+      "name": "Install Line, Copied",
+      "kind": "custom",
+      "refersTo": "install-line-copied",
+      "description": "The install line's answer to Copy: the line fills marigold, the gutter's + becomes a tick, the word reads Copied.",
+      "html": "<div class=\"ds-install ds-install-copied\" role=\"group\" aria-label=\"Install SideShot\"><span class=\"ds-install-gutter\" aria-hidden=\"true\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m5 12 5 5 9-10\"></path></svg></span><code class=\"ds-install-cmd\">npx skills add victorsaly/sideshot -g</code><button type=\"button\" class=\"ds-install-copy\"><svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"11\" height=\"11\" rx=\"1\"></rect><path d=\"M5 15V5a1 1 0 0 1 1-1h10\"></path></svg><span>Copied</span></button></div>",
+      "css": ".ds-install { display: grid; grid-template-columns: 2.4rem 1fr auto; align-items: stretch; max-width: 720px; border: 3px solid var(--ink, #000); background: var(--paper, #fff); color: var(--ink, #000); } .ds-install-gutter { display: grid; place-items: center; border-right: 1px solid var(--ink, #000); background: var(--mark, #ffc400); color: var(--mark-ink, #000); } .ds-install-cmd { align-self: center; padding: 14px 16px; font-family: var(--mono, ui-monospace, monospace); font-size: clamp(0.88rem, 0.8rem + 0.4vw, 1.05rem); font-weight: 500; overflow-wrap: anywhere; } .ds-install-copy { display: inline-flex; align-items: center; gap: 8px; border: 0; border-left: 3px solid var(--ink, #000); background: var(--ink, #000); color: var(--paper, #fff); font-family: var(--font, system-ui, sans-serif); font-weight: 700; font-size: 1rem; padding: 0 20px; min-height: 52px; text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; } .ds-install-copied { background: var(--mark, #ffc400); } .ds-install-copied .ds-install-cmd { color: var(--mark-ink, #000); }"
+    },
+    {
+      "name": "Frame Bar",
+      "kind": "nav",
+      "refersTo": "frame-bar",
+      "description": "The shared bar: the maker's square and name with the Skills lockup, the skill's own mark and name after a slash, the source link on the right.",
+      "html": "<header class=\"ds-bar\"><nav class=\"ds-trail\" aria-label=\"Where you are\"><a class=\"ds-trail-home\" href=\"#\"><span class=\"ds-square\" aria-hidden=\"true\"></span><b>Victor Saly</b><span class=\"ds-hub\">Skills</span></a><span class=\"ds-slash\" aria-hidden=\"true\">/</span><a href=\"#\" aria-current=\"page\"><svg width=\"21\" height=\"14\" viewBox=\"0 0 66 44\" aria-hidden=\"true\"><rect x=\"0\" y=\"0\" width=\"44\" height=\"44\" fill=\"var(--ink, #000)\"></rect><rect x=\"22\" y=\"0\" width=\"44\" height=\"44\" fill=\"var(--mark, #ffc400)\" style=\"mix-blend-mode: multiply\"></rect></svg>SideShot</a></nav><a class=\"ds-source\" href=\"#\"><svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 4h6v6\"></path><path d=\"M20 4 11 13\"></path><path d=\"M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5\"></path></svg>Source on GitHub</a></header>",
+      "css": ".ds-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 0 16px; border-bottom: 1px solid var(--ink, #000); background: var(--paper, #fff); color: var(--ink, #000); font-family: var(--font, system-ui, sans-serif); } .ds-trail { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; } .ds-trail a { display: inline-flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; font-size: 1.05rem; } .ds-trail a:hover b, .ds-trail a[aria-current] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.25em; } .ds-square { width: 14px; height: 14px; background: var(--ink, #000); } .ds-hub { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; } .ds-slash { color: var(--hush, #6b6b6b); } .ds-source { display: inline-flex; align-items: center; gap: 8px; color: inherit; font-size: 0.95rem; text-decoration: none; white-space: nowrap; } .ds-source:hover { text-decoration: underline; } .ds-trail a:focus-visible, .ds-source:focus-visible { outline: 3px solid var(--ink, #000); outline-offset: 3px; }"
+    },
+    {
+      "name": "Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "SideShot's in-page tabs in PR grammar: bold with a strong marigold underline when current.",
+      "html": "<nav class=\"ds-tabs\" aria-label=\"On this page\"><a href=\"#\" class=\"ds-tab-on\">Conversation</a><a href=\"#\">Files changed <span class=\"ds-count\">4</span></a><a href=\"#\">Merge</a></nav>",
+      "css": ".ds-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--ink, #000); overflow-x: auto; font-family: var(--font, system-ui, sans-serif); font-size: 19px; } .ds-tabs a { display: inline-flex; align-items: center; gap: 8px; padding: 9px clamp(10px, 2vw, 16px); color: var(--ink, #000); text-decoration: none; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; } .ds-tabs a:hover { border-bottom-color: var(--rule, #cfcfcf); } .ds-tabs a.ds-tab-on { font-weight: 700; border-bottom-color: var(--mark, #ffc400); } .ds-tabs a:focus-visible { outline: 3px solid var(--ink, #000); outline-offset: 3px; } .ds-count { font-size: 0.8rem; font-weight: 700; border: 1px solid currentColor; padding: 0 7px; line-height: 1.5; }"
+    },
+    {
+      "name": "State Pill",
+      "kind": "chip",
+      "refersTo": "state-pill",
+      "description": "The PR's Open state: marigold, ink text, a branch icon. The only rounded shape in the system.",
+      "html": "<span class=\"ds-pill\"><svg aria-hidden=\"true\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"6\" cy=\"6\" r=\"2.5\"></circle><circle cx=\"6\" cy=\"18\" r=\"2.5\"></circle><circle cx=\"18\" cy=\"18\" r=\"2.5\"></circle><path d=\"M6 8.5v7\"></path><path d=\"M18 15.5V9a3 3 0 0 0-3-3h-4\"></path><path d=\"m13 3.5-2.5 2.5 2.5 2.5\"></path></svg>Open</span>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--mark, #ffc400); color: var(--mark-ink, #000); font-family: var(--font, system-ui, sans-serif); font-weight: 700; font-size: 0.95rem; padding: 4px 12px 4px 10px; border-radius: 999px; }"
+    },
+    {
+      "name": "Outline Tag",
+      "kind": "chip",
+      "refersTo": "tag-outline",
+      "description": "A square hairline tag for a settled state or a count: Merged, the files count.",
+      "html": "<span class=\"ds-tag\">Merged</span>",
+      "css": ".ds-tag { display: inline-block; white-space: nowrap; font-family: var(--font, system-ui, sans-serif); font-weight: 700; font-size: 0.85rem; color: var(--ink, #000); border: 1px solid var(--ink, #000); padding: 1px 10px; }"
+    },
+    {
+      "name": "Hunk",
+      "kind": "card",
+      "refersTo": "hunk-head",
+      "description": "The system's container: a hairline ink box with a wash header (title and an @@ line) and added lines, each with a marigold + gutter.",
+      "html": "<article class=\"ds-hunk\"><header class=\"ds-hunk-head\"><h3>Your screens, not ours</h3><code>@@ --devices desk,phone @@</code></header><ul class=\"ds-adds\"><li>Desk and phone by default: a web browser at 1280×900 and a mobile one at 390×844, both at 2x.</li><li>Light and dark with <code>--schemes light,dark</code>, when the change touches colour.</li></ul></article>",
+      "css": ".ds-hunk { border: 1px solid var(--ink, #000); background: var(--paper, #fff); color: var(--ink, #000); font-family: var(--font, system-ui, sans-serif); font-size: 19px; line-height: 1.6; } .ds-hunk-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding: 12px 18px; background: var(--wash, #f4f4f4); border-bottom: 1px solid var(--ink, #000); } .ds-hunk-head h3 { margin: 0; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; } .ds-hunk-head code { color: var(--hush, #6b6b6b); font-family: var(--mono, ui-monospace, monospace); font-size: 0.85rem; } .ds-adds { list-style: none; margin: 0; padding: 8px 0; } .ds-adds li { position: relative; padding: 8px 18px 8px calc(2.4rem + 14px); max-width: calc(68ch + 2.4rem + 14px); } .ds-adds li::before { content: '+'; position: absolute; inset: 0 auto 0 0; width: 2.4rem; padding-top: 8px; font-family: var(--mono, ui-monospace, monospace); font-weight: 700; text-align: center; color: var(--mark-ink, #000); background: var(--mark, #ffc400); } .ds-adds code { font-family: var(--mono, ui-monospace, monospace); font-size: 0.9em; }"
+    },
+    {
+      "name": "SideShot Mark and Wordmark",
+      "kind": "custom",
+      "description": "SideShot's own brand, carried inside the shared frame: two squares (before in ink, after in marigold) and Side + Shot with a marigold underline on paper.",
+      "html": "<span class=\"ds-brand\"><svg width=\"45\" height=\"30\" viewBox=\"0 0 66 44\" aria-hidden=\"true\"><rect x=\"0\" y=\"0\" width=\"44\" height=\"44\" fill=\"var(--ink, #000)\"></rect><rect x=\"22\" y=\"0\" width=\"44\" height=\"44\" fill=\"var(--mark, #ffc400)\" style=\"mix-blend-mode: multiply\"></rect></svg><span class=\"ds-wordmark\">Side<span class=\"ds-shot\">Shot</span></span></span>",
+      "css": ".ds-brand { display: inline-flex; align-items: center; gap: 16px; color: var(--ink, #000); font-family: var(--font, system-ui, sans-serif); font-size: clamp(2rem, 1.5rem + 2vw, 3.2rem); line-height: 1.12; } .ds-wordmark { font-weight: 800; letter-spacing: -0.02em; } .ds-shot { text-decoration: underline; text-decoration-color: var(--mark, #ffc400); text-decoration-thickness: 0.17em; text-underline-offset: 0.06em; text-decoration-skip-ink: none; } @media (prefers-color-scheme: dark) { .ds-shot { color: var(--mark, #ffc400); text-decoration: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Ink on Paper, One Marigold",
+    "overview": "The site is a printed page with a single highlighter. Everything is ink on paper: black on white by day, light grey on charcoal by night, and structure drawn with ink rules instead of boxes, tints or depth. One colour, marigold, is the highlighter, and it means one thing: what is added, open, or after. The density is that of a well-set document: generous body type (19px, line height 1.6), a 68-character measure for prose, and very heavy, tightly tracked display type that reads at a glance.\n\nThe system has two layers. The shared frame (the bar with Victor's name and the footer, the tokens, the type, the rules, the install line) is quiet and identical on the hub and on every skill page. Inside it, each skill page carries its own brand: its own mark, its own wordmark, its own page grammar. SideShot is the first: a two-square mark, the wordmark Side + Shot, and a page written as the pull request SideShot writes into (a PR title with a state pill, tabs, a conversation comment holding the real before/after table, capabilities as diff hunks, the install command as the added line that merges).\n\nCommands are typed, so they are set in the mono sibling of the prose face; everything else is set in Atkinson Hyperlegible Next. Motion exists only where the reader asked for it: the install line answers a Copy press.",
+    "keyCharacteristics": [
+      "Paper, ink and greys; marigold is the only hue, and it marks what is added, open or after.",
+      "Structure by ink rules in three weights (8px, 3px, 1px); no shadows, no gradients, no cards.",
+      "Square corners everywhere; the PR state pill is the one rounded shape.",
+      "Atkinson Hyperlegible Next for words, Atkinson Hyperlegible Mono for anything typed into a terminal.",
+      "A quiet shared frame; each skill brings its own brand inside it.",
+      "The install line is the page's one filled action."
+    ],
+    "rules": [
+      { "name": "The One Marigold Rule", "body": "Marigold is the only hue in the frame, and it always means added, open or after. If something is marigold, a reader should be able to say what it adds.", "section": "colors" },
+      { "name": "The Highlighter Rule", "body": "Marigold sits behind ink or under it as a stroke; it is never letter colour on paper (1.6:1). Letters turn marigold only on charcoal, as Shot does in SideShot's wordmark in dark mode.", "section": "colors" },
+      { "name": "The Charcoal Night Rule", "body": "Dark mode swaps paper and ink for charcoal and light grey, and keeps marigold and ink-on-marigold exactly as they are. Real screenshots stay on white in both schemes.", "section": "colors" },
+      { "name": "The Typed Words Rule", "body": "Anything a person would type or read in a terminal (commands, flags, branch names, file names, screen sizes) is set in Atkinson Hyperlegible Mono. Prose never is.", "section": "typography" },
+      { "name": "The Heavy Headline Rule", "body": "Display and the wordmark are weight 800 with negative tracking (-0.02em to -0.03em) and line height about 1; headings below them are 700. Headings balance their lines; paragraphs wrap pretty.", "section": "typography" },
+      { "name": "The Three Rules Rule", "body": "Structure is drawn with ink in three weights only. Heavy (8px) opens a big moment: the top of the hub's skill list, Files changed, Merge. Strong (3px) sits above a section or frames the one action: the conversation comment's top, the footer's top, the install line's border, the active tab's underline. A hairline (1px) separates rows and outlines blocks: the frame bar, list rows, hunks, tables, tags.", "section": "elevation" },
+      { "name": "The Flat Page Rule", "body": "Nothing floats. A block that needs to stand apart gets a rule or a wash, never a shadow.", "section": "elevation" },
+      { "name": "The Square Corner Rule", "body": "If it is not the PR state pill, it has square corners.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do draw structure with ink rules in the three weights: heavy (8px) to open a big moment, strong (3px) above a section or round the action, hairline (1px) between rows.",
+      "Do use marigold only for what is added, open or after, and put ink on it.",
+      "Do set commands, flags, branch names and screen sizes in Atkinson Hyperlegible Mono, and everything else in Atkinson Hyperlegible Next.",
+      "Do give every skill's install command the Install Line: + gutter, mono command, Copy.",
+      "Do bring a skill's own mark, wordmark and page grammar inside the shared frame, through the frame's skill slot and the page body.",
+      "Do keep focus visible: a 3px ink ring 3px out; inside a filled control the ring turns paper and sits inside.",
+      "Do keep motion to what the reader asked for (the copy confirmation, 220ms fill and 140ms press), and let reduced motion make it instant.",
+      "Do show real screenshots on white with a light rule round them, in both schemes."
+    ],
+    "donts": [
+      "Don't add shadows, gradients, blurs or raised surfaces.",
+      "Don't round corners; the PR state pill is the only rounded shape.",
+      "Don't wrap content in cards; a container is a ruled block like the hunk.",
+      "Don't set marigold letters on paper; use a marigold underline or fill instead.",
+      "Don't redefine the shared tokens on a skill page; a skill adds its brand on top of them.",
+      "Don't use the light rule colour for a border that carries meaning; it is for dividers only.",
+      "Don't lift the frame's small tracked capital label into eyebrows or kickers above headings; it belongs to the hub lockup."
+    ]
+  }
+}

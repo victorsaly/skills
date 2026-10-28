@@ -1,0 +1,30 @@
+---
+// Why: SideShot's mark, two squares side by side: before in ink, after in marigold, overlapping where they meet.
+interface Props {
+  size?: number;
+}
+const { size = 22 } = Astro.props;
+---
+
+<svg class="mark" width={size * 1.5} height={size} viewBox="0 0 66 44" aria-hidden="true">
+  <rect x="0" y="0" width="44" height="44" class="before"></rect>
+  <rect x="22" y="0" width="44" height="44" class="after"></rect>
+</svg>
+
+<style>
+  .mark {
+    flex: none;
+  }
+  .before {
+    fill: var(--ink);
+  }
+  .after {
+    fill: var(--mark);
+    mix-blend-mode: multiply;
+  }
+  @media (prefers-color-scheme: dark) {
+    .after {
+      mix-blend-mode: normal;
+    }
+  }
+</style>
