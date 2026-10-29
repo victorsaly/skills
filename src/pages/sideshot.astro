@@ -73,8 +73,8 @@ const data = [
       <span><b>victorsaly</b> wants to merge <code>sideshot</code> into <code>your-agent</code></span>
     </p>
     <p class="lede">
-      <b>A diff shows the code, not what people will see.</b> Say it to your coding agent: it pictures the change on a
-      desk and a phone, shows you, then puts the table in the PR.
+      <b>A diff cannot show a UI change.</b> Your agent pictures it on a desk and a phone, shows you, then puts the
+      table in the PR.
     </p>
     <div class="cta">
       <InstallLine command={skill.install} label="Install SideShot" />
@@ -244,7 +244,7 @@ const data = [
     <h2 id="merge-title">Merge <SideShotWordmark /> into your agent</h2>
     <p class="checks">
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
-      No conflicts. MIT licence. Needs Node 22, git and Playwright; the GitHub CLI to put the pictures in a PR.
+      <span>No conflicts. MIT licence. Needs Node 22, git and Playwright; <code>gh</code> to publish.</span>
     </p>
     <InstallLine command={skill.install} label="Install SideShot" />
     <p class="then">Then, on a branch with a pull request, ask: <q>SideShot this PR.</q></p>
@@ -569,6 +569,7 @@ const data = [
   }
   /* A removed line: what SideShot takes off your hands, in the diff's grey, never marigold. */
   .adds li.del {
+    max-width: none;
     color: var(--quiet);
     background: var(--wash);
   }
