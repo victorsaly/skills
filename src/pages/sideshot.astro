@@ -33,7 +33,8 @@ const data = [
     applicationCategory: 'DeveloperApplication',
     applicationSubCategory: 'Agent Skill',
     operatingSystem: 'macOS, Linux, Windows',
-    softwareRequirements: 'Node.js, Playwright, a coding agent that reads Agent Skills',
+    softwareRequirements:
+      'Node.js 22, git, Playwright with Chromium, the GitHub CLI to publish, a coding agent that reads Agent Skills',
     license: 'https://opensource.org/licenses/MIT',
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -72,7 +73,8 @@ const data = [
       <span><b>victorsaly</b> wants to merge <code>sideshot</code> into <code>your-agent</code></span>
     </p>
     <p class="lede">
-      Say it to your coding agent: it pictures the change on a desk and a phone, shows you, then puts the table in the PR.
+      <b>A diff cannot show a UI change.</b> Your agent pictures it on a desk and a phone, shows you, then puts the
+      table in the PR.
     </p>
     <div class="cta">
       <InstallLine command={skill.install} label="Install SideShot" />
@@ -84,7 +86,7 @@ const data = [
 
   <nav class="tabs wrap" aria-label="On this page">
     <a href="#conversation" class="on">Conversation</a>
-    <a href="#files">Files changed <span class="count">4</span></a>
+    <a href="#files">Files changed <span class="count">5</span></a>
     <a href="#merge">Merge</a>
   </nav>
 
@@ -148,12 +150,31 @@ const data = [
     </div>
     <p class="caption">
       A real table from a real pull request. Before, the gate said <q>Needs you</q> for a merge you could not make
-      yet; after, it says what it waits for. A reviewer sees that in one look instead of imagining it from the diff.
+      yet; after, it says what it waits for. A reviewer sees that in one look, on desk and phone, without checking out
+      the branch.
     </p>
   </section>
 
   <section id="files" class="files wrap" aria-labelledby="files-title">
-    <h2 id="files-title" class="files-title">Files changed <span class="count">4</span></h2>
+    <h2 id="files-title" class="files-title">Files changed <span class="count">5</span></h2>
+
+    <article class="hunk" aria-labelledby="h-by-hand">
+      <header class="hunk-head">
+        <h3 id="h-by-hand">Instead of screenshots by hand</h3>
+        <code>@@ "SideShot this PR" @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li class="del"><span class="visually-hidden">Removed: </span>Open the site as it is and your branch, side by side.</li>
+          <li class="del"><span class="visually-hidden">Removed: </span>Picture the part on each: desk and phone, light and dark, before and after. Eight pictures.</li>
+          <li class="del"><span class="visually-hidden">Removed: </span>Crop every pair so it lines up, upload them, and type the table.</li>
+          <li class="del"><span class="visually-hidden">Removed: </span>Do it all again after every review comment.</li>
+          <li><span class="visually-hidden">Added: </span>One sentence to your agent. Eight pictures of a small page take about seven seconds.</li>
+          <li><span class="visually-hidden">Added: </span>Cropped to the part and lined up, with what changed marked.</li>
+          <li><span class="visually-hidden">Added: </span>The table written into the pull request, and replaced, not added to, on the next run.</li>
+        </ul>
+      </div>
+    </article>
 
     <article class="hunk" aria-labelledby="h-rings">
       <header class="hunk-head">
@@ -198,7 +219,7 @@ const data = [
         <ul class="adds">
           <li>Written in the open Agent Skills format: Claude Code, Codex, Cursor, OpenCode and others read it.</li>
           <li>Your agent works out the page and the parts from your diff, so the ask is one sentence.</li>
-          <li>Playwright comes from your project; if it is missing, your agent asks before adding it.</li>
+          <li>Playwright comes from your project, or a global one for a project without Node; if it is missing, your agent asks before adding it.</li>
         </ul>
       </div>
     </article>
@@ -213,6 +234,7 @@ const data = [
           <li>You see the pictures first. Nothing is pushed until you have.</li>
           <li>They live on a <code>sideshot</code> branch that never merges, so the code stays light.</li>
           <li>The table goes between markers in the PR description; running again replaces it instead of adding another.</li>
+          <li>On a public repository the pictures are public; on a private one, only those who can read it see them, in the table too.</li>
         </ul>
       </div>
     </article>
@@ -222,7 +244,7 @@ const data = [
     <h2 id="merge-title">Merge <SideShotWordmark /> into your agent</h2>
     <p class="checks">
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
-      No conflicts. MIT licence. Needs Node; uses your project's Playwright.
+      <span>No conflicts. MIT licence. Needs Node 22, git and Playwright; <code>gh</code> to publish.</span>
     </p>
     <InstallLine command={skill.install} label="Install SideShot" />
     <p class="then">Then, on a branch with a pull request, ask: <q>SideShot this PR.</q></p>
@@ -544,6 +566,17 @@ const data = [
     text-align: center;
     color: var(--mark-ink);
     background: var(--mark);
+  }
+  /* A removed line: what SideShot takes off your hands, in the diff's grey, never marigold. */
+  .adds li.del {
+    max-width: none;
+    color: var(--quiet);
+    background: var(--wash);
+  }
+  .adds li.del::before {
+    content: '−';
+    color: var(--hush);
+    background: var(--wash);
   }
   .pair {
     margin: 10px 18px 10px 0;
