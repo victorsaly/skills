@@ -30,21 +30,22 @@ const cards = {
     h1 { font-size: 46px; line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; }
     p { font-size: 26px; line-height: 1.4; color: #333; }
     .url { margin-top: auto; }
-    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 56px 56px 0 24px; }
-    .col { display: flex; flex-direction: column; }
-    .label { font-size: 20px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding-bottom: 8px; border-bottom: 3px solid #000; margin-bottom: 14px; }
+    /* The phone pictures are the footer alone, wide and short, so before sits above after, each at its own height. */
+    .pair { display: grid; gap: 16px; padding: 40px 56px 0 24px; align-content: start; justify-items: center; }
+    .col { display: flex; flex-direction: column; width: 420px; }
+    .label { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding-bottom: 6px; border-bottom: 3px solid #000; margin-bottom: 10px; }
     .label.after { box-shadow: inset 0 -10px 0 #ffc400; }
-    .pic { height: 480px; border: 1px solid #cfcfcf; background-size: 100% auto; background-repeat: no-repeat; background-position: 0 -170px; }
+    .pic { display: block; width: 100%; height: auto; border: 1px solid #cfcfcf; }
   </style>
   <div class="text">
     <div class="brand"><span class="mark"><i class="b"></i><i class="a"></i></span><span>Side<span class="shot">Shot</span></span></div>
     <h1>Before-and-after screenshots of your UI change, in every pull request.</h1>
-    <p>Desk and phone, light and dark. For Claude Code, Codex, Cursor and any coding agent.</p>
+    <p>The part that changed, ringed, on desk and phone. For Claude Code, Codex, Cursor and any coding agent.</p>
     <span class="url">skills.victorsaly.com/sideshot</span>
   </div>
   <div class="pair">
-    <div class="col"><span class="label">Before</span><div class="pic" style="background-image:url(${asset('sideshot/pr151/gate-before-phone.png')})"></div></div>
-    <div class="col"><span class="label after">After</span><div class="pic" style="background-image:url(${asset('sideshot/pr151/gate-after-phone.png')})"></div></div>
+    <div class="col"><span class="label">Before</span><img class="pic" src="${asset('sideshot/pr3/footer-phone-before.png')}" alt=""></div>
+    <div class="col"><span class="label after">After</span><img class="pic" src="${asset('sideshot/pr3/footer-phone-after.png')}" alt=""></div>
   </div>`,
   hub: `${base}<style>
     body { padding: 64px 72px 56px; display: flex; flex-direction: column; border-top: 14px solid #000; }
