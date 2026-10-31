@@ -52,8 +52,8 @@ carries its own name and brand; the hub is Victor's name as the maker.
 
 ## Evidence on Hand
 
-- Real before/after pictures from agentic-blog PR #151 and the rings-and-marks example, in
-  victorsaly/sideshot/docs/assets.
+- Real before/after pictures: the table SideShot wrote into this site's own pull request (victorsaly/skills #3,
+  the footer of /sideshot, in public/sideshot/pr3) and the rings-and-marks example in public/sideshot/marks.
 - MIT licence. No install counts, testimonials, users or companies exist yet: do not invent any.
 
 ## Product Principles
