@@ -76,12 +76,14 @@ const image = new URL(card.path, Astro.site).href;
     <footer class="foot">
       <div class="wrap foot-row">
         <p><b>Victor Saly · Skills.</b> Small skills for any coding agent, each made for a real project first.</p>
-        <p>
-          <a href="/">All skills</a> · <a href="https://victorsaly.com" rel="me">Work at victorsaly.com</a> ·
-          <a href="https://blog.victorsaly.com" rel="me">Writing on the blog</a> ·
-          <a href="https://www.linkedin.com/in/victorsaly" rel="me">LinkedIn</a> ·
-          <a href="https://github.com/victorsaly" rel="me">GitHub</a> · MIT licence
-        </p>
+        <ul class="family" aria-label="Victor Saly elsewhere">
+          <li><a href="/">All skills</a></li>
+          <li><a href="https://victorsaly.com" rel="me">Work at victorsaly.com</a></li>
+          <li><a href="https://blog.victorsaly.com" rel="me">Writing on the blog</a></li>
+          <li><a href="https://www.linkedin.com/in/victorsaly" rel="me">LinkedIn</a></li>
+          <li><a href="https://github.com/victorsaly" rel="me">GitHub</a></li>
+          <li>MIT licence</li>
+        </ul>
       </div>
     </footer>
   </body>
@@ -170,6 +172,19 @@ const image = new URL(card.path, Astro.site).href;
   }
   .foot b {
     color: var(--ink);
+  }
+  .family {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* The separator is drawn after each item, so a line that wraps starts on a word, never on a dot. */
+  .family li:not(:last-child)::after {
+    content: '·';
+    padding: 0 0.45em;
+    color: var(--hush);
   }
   @media (max-width: 560px) {
     .source-label {
