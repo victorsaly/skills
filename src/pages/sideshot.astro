@@ -12,12 +12,26 @@ const entry = await getEntry('skills', 'sideshot');
 if (!entry) throw new Error('src/content/skills/sideshot.md is missing');
 const skill = entry.data;
 
-const pr = 'https://github.com/victorsaly/agentic-blog/pull/151';
+// The table SideShot wrote into this site's own pull request, picture for picture: the footer of this page, before
+// and after, on a desk and a phone. SideShot takes the pictures at 2x; the sizes here are theirs at 1x.
+const pr = 'https://github.com/victorsaly/skills/pull/3';
 const pictures = [
-  { device: 'Desk', size: '1280×900', before: 'gate-before-desk', after: 'gate-after-desk', w: 1280, h: 900 },
-  { device: 'Phone', size: '390×844', before: 'gate-before-phone', after: 'gate-after-phone', w: 390, h: 844 },
-  { device: 'Dark', size: '1280×900', before: 'gate-before-dark', after: 'gate-after-dark', w: 1280, h: 900 },
+  {
+    device: 'Desk',
+    size: '1280×900',
+    before: { file: 'footer-desk-before', w: 1280, h: 131 },
+    after: { file: 'footer-desk-after', w: 1280, h: 164 },
+  },
+  {
+    device: 'Phone',
+    size: '390×844',
+    before: { file: 'footer-phone-before', w: 390, h: 188 },
+    after: { file: 'footer-phone-after', w: 390, h: 237 },
+  },
 ];
+const was = 'the footer links say All skills, Blog, victorsaly.com and MIT licence.';
+const now =
+  'the links say All skills, Work at victorsaly.com, Writing on the blog, LinkedIn, GitHub and MIT licence, ringed and numbered 1.';
 
 const site = 'https://skills.victorsaly.com';
 const description =
@@ -59,7 +73,7 @@ const data = [
   path="/sideshot"
   skill={{ name: skill.name, href: '/sideshot' }}
   repo={skill.repo}
-  card={{ path: '/og/sideshot.png', alt: 'SideShot: before-and-after screenshots of your UI change, in every pull request. A real before and after from a pull request, on a phone.' }}
+  card={{ path: '/og/sideshot.png', alt: 'SideShot: before-and-after screenshots of your UI change, in every pull request. This site’s own footer before and after its pull request, on a phone, with the change ringed.' }}
   data={data}
 >
   <SideShotMark slot="skill-mark" size={14} />
@@ -108,14 +122,14 @@ const data = [
     </div>
     <div class="comment">
       <p class="comment-head">
-        <span class="who"><SideShotMark size={16} /><span><b>SideShot</b> wrote this table into <a class="nowrap" href={pr}>agentic-blog #151</a> <span class="merged">Merged</span></span></span>
+        <span class="who"><SideShotMark size={16} /><span><b>SideShot</b> wrote this table into <a class="nowrap" href={pr}>skills #3</a>, this page's own pull request <span class="merged">Merged</span></span></span>
       </p>
       <div class="comment-body">
         <div class="md-row">
           <h3 class="md-h2">Before and after</h3>
-          <p class="md-strong">The merge gate while other steps still work</p>
+          <p class="md-strong">The footer of this page, linking the work and the writing</p>
         </div>
-        <div class="table" role="group" aria-label="Before and after, three ways">
+        <div class="table" role="group" aria-label="Before and after, on a desk and a phone">
           <div class="cols" aria-hidden="true"><span></span><span>Before</span><span>After</span></div>
           {
             pictures.map((p) => (
@@ -124,35 +138,39 @@ const data = [
                   <b>{p.device}</b>
                   <span>{p.size}</span>
                 </figcaption>
-                <a href={`/sideshot/pr151/${p.before}.png`} class="shot">
+                <a href={`/sideshot/pr3/${p.before.file}.png`} class="shot">
                   <img
-                    src={`/sideshot/pr151/${p.before}.png`}
-                    width={p.w}
-                    height={p.h}
-                    loading={p.device === 'Desk' ? 'eager' : 'lazy'}
-                    alt={`Before, ${p.device.toLowerCase()}: the merge gate says “Needs you”, but its Approve button is greyed out while Citations and Drilldown still work.`}
+                    src={`/sideshot/pr3/${p.before.file}.png`}
+                    width={p.before.w}
+                    height={p.before.h}
+                    loading="eager"
+                    alt={`Before, ${p.device.toLowerCase()}: ${was}`}
                   />
                 </a>
-                <a href={`/sideshot/pr151/${p.after}.png`} class="shot">
+                <a href={`/sideshot/pr3/${p.after.file}.png`} class="shot">
                   <img
-                    src={`/sideshot/pr151/${p.after}.png`}
-                    width={p.w}
-                    height={p.h}
-                    loading={p.device === 'Desk' ? 'eager' : 'lazy'}
-                    alt={`After, ${p.device.toLowerCase()}: the gate says “Waiting on 2 steps, opens when Citations and Drilldown finish”, and the button reads “Opens when they finish”.`}
+                    src={`/sideshot/pr3/${p.after.file}.png`}
+                    width={p.after.w}
+                    height={p.after.h}
+                    loading="eager"
+                    alt={`After, ${p.device.toLowerCase()}: ${now}`}
                   />
                 </a>
               </figure>
             ))
           }
         </div>
-        <p class="md-sub">Before: main · After: this branch · made with SideShot. On a wide screen the phone pair is cropped to the change; open any picture for the whole screen.</p>
+        <p class="md-strong">What changed</p>
+        <ol class="notes">
+          <li>Work and writing named, with LinkedIn and GitHub</li>
+        </ol>
+        <p class="md-sub">Before: skills.victorsaly.com/sideshot · After: this branch, run locally · made with SideShot. Every picture is as SideShot took it; open one for its full size.</p>
       </div>
     </div>
     <p class="caption">
-      A real table from a real pull request. Before, the gate said <q>Needs you</q> for a merge you could not make
-      yet; after, it says what it waits for. A reviewer sees that in one look, on desk and phone, without checking out
-      the branch.
+      A real table from a real pull request: this page's own footer. Before, the links said <q>Blog</q> and
+      <q>victorsaly.com</q>; after, they say whose work and writing, with LinkedIn and GitHub added, and the ring with a
+      1 says where to look. A reviewer sees that in one look, on desk and phone, without checking out the branch.
     </p>
   </section>
 
@@ -192,7 +210,7 @@ const data = [
         <figure class="pair">
           <img src="/sideshot/marks/before-phone.png" width="780" height="1021" loading="lazy" alt="Before, on a phone: the merge gate with a paragraph saying Citations and Drilldown are still working, and a greyed-out Approve button." />
           <img src="/sideshot/marks/after-phone.png" width="780" height="775" loading="lazy" alt="After, on a phone: a marigold ring numbered 1 around the Approve and merge button, a box around the changed buttons, and a dashed rule where the paragraph was removed." />
-          <figcaption>The same gate, with <code>--note</code> and <code>--mark-changes</code>.</figcaption>
+          <figcaption>A merge gate on a phone, with <code>--note</code> and <code>--mark-changes</code>.</figcaption>
         </figure>
       </div>
     </article>
@@ -483,12 +501,16 @@ const data = [
     border: var(--hair) solid var(--rule);
     background: #fff;
   }
-  /* On a desk the phone pair opens at the page's title, where the change is; each links to the whole picture. */
+  /* Each picture is the part SideShot cut out, so nothing is cropped here: a phone picture shows at its own width. */
   .phone .shot img {
-    width: 300px;
-    height: 262px;
-    object-fit: cover;
-    object-position: 50% 56.5%;
+    width: min(390px, 100%);
+    height: auto;
+  }
+  /* The numbered notes SideShot writes under its table: the ring's number, then its words. */
+  .notes {
+    margin: 0;
+    padding-left: 1.5rem;
+    font-size: 0.95rem;
   }
   .md-sub {
     font-size: 0.85rem;
@@ -685,8 +707,6 @@ const data = [
     }
     .phone .shot img {
       width: 100%;
-      height: auto;
-      object-fit: fill;
     }
     .hunk-body.split {
       grid-template-columns: 1fr;

@@ -264,7 +264,7 @@ Each item in a hunk is an added diff line: a 2.4rem marigold gutter carrying a m
 - **Tabs (SideShot):** Conversation, Files changed (with an outline count), Merge, in body type over a hairline; hover draws a light rule underneath; the current tab is bold with a strong marigold underline. The tabs are in-page anchors.
 
 ### Before/After Table (SideShot)
-A light-ruled grid with a label column (device and size) and Before and After columns; After carries a marigold bar beneath its head. Screenshots sit on white with a light border and link to the full picture. The phone pair leads at every width; on a desk it is cropped to the change.
+A light-ruled grid with a label column (device and size) and Before and After columns; After carries a marigold bar beneath its head. Screenshots sit on white with a light border and link to the full picture. They are the part SideShot pictured, already cropped to it, so the page crops nothing; the phone pair leads at every width.
 
 ### Skill Brand: SideShot
 - **Mark:** two 44-unit squares side by side, overlapping by half: before in ink, after in marigold (multiplied over the ink on paper, plain on charcoal). Used in the trail, in the comment head and at 30px on the hub.
