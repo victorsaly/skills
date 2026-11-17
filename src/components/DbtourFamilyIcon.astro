@@ -1,0 +1,21 @@
+---
+// Why: each way to use dbtour has an icon of its own: the mark's cylinder with a sign where the pulse runs. The
+// geometry is dbtour's (packages/addon-explorer/src/mark.ts, drawn into brand/family/); kept here in currentColor so
+// it takes the field's ink.
+interface Props {
+  member: 'app' | 'cli' | 'skill' | 'mcp' | 'plugin' | 'packages';
+  size?: number;
+}
+const { member, size = 40 } = Astro.props;
+const signs = {
+  app: '<rect x="7.5" y="10.75" width="9" height="6.5" rx="1"/><path d="M7.5 13H16.5"/>',
+  cli: '<polyline points="7.5,11 10.5,13.75 7.5,16.5"/><path d="M12.5 16.5H16.5"/>',
+  skill: '<path d="M12 10 L13.15 12.85 L16 14 L13.15 15.15 L12 18 L10.85 15.15 L8 14 L10.85 12.85 Z"/>',
+  mcp: '<path d="M7 11.75H16.5M14.25 9.75 16.5 11.75 14.25 13.75M17 16.25H7.5M9.75 14.25 7.5 16.25 9.75 18.25"/>',
+  plugin: '<path d="M10 9.75V12M14 9.75V12"/><rect x="8.25" y="12" width="7.5" height="3.75" rx="1"/><path d="M12 15.75V18.5"/>',
+  packages: '<path d="M12 10 16.25 12.1V16.4L12 18.5 7.75 16.4V12.1Z"/><path d="M7.75 12.1 12 14.25 16.25 12.1M12 14.25V18.5"/>',
+};
+const shapes = `<ellipse cx="12" cy="5.5" rx="8.5" ry="2.5"/><path d="M3.5,5.5 V18 A8.5,2.5 0 0 0 20.5,18 V5.5"/>${signs[member]}`;
+---
+
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={shapes} />
