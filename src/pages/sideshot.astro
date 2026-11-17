@@ -101,7 +101,7 @@ const data = [
 
   <nav class="tabs wrap" aria-label="On this page">
     <a href="#conversation" class="on">Conversation</a>
-    <a href="#files">Files changed <span class="count">5</span></a>
+    <a href="#files">Files changed <span class="count">7</span></a>
     <a href="#merge">Merge</a>
   </nav>
 
@@ -279,9 +279,9 @@ const data = [
       </header>
       <div class="hunk-body">
         <ul class="adds">
-          <li>Email addresses, card numbers, IBANs, keys and tokens, and filled form fields that hold a phone, an address or a name are covered with a solid box on every picture, before it is written.</li>
+          <li>Email addresses, card numbers, IBANs, keys and tokens, and form fields whose <code>autocomplete</code> says they hold a phone, an address or a name are covered with a solid box on every picture, before it is written.</li>
           <li>Solid, not blurred: a blur can be read back. The same boxes on before and after, so none is marked as a change.</li>
-          <li>Anything else, whole, with <code>--mask</code> or <code>data-sideshot-mask</code> in the page. A name in plain text has no shape to find, so mark it, or picture stand-in data.</li>
+          <li>What has no shape to find is not covered by itself: a name in plain text, a field that says nothing of what it holds, words in an image, a canvas, a video or an iframe. Cover it with <code>--mask</code> or <code>data-sideshot-mask</code> in the page, or picture stand-in data, and look before you publish.</li>
         </ul>
       </div>
     </article>
