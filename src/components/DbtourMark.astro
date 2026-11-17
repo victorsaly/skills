@@ -1,0 +1,20 @@
+---
+// Why: dbtour's mark, a database drawn as a cylinder with a line through it, from dbtour's brand/mark.svg; it takes
+// the colour of the text around it, so it reads on paper and on the entry's black field.
+interface Props {
+  size?: number;
+}
+const { size = 22 } = Astro.props;
+---
+
+<svg class="mark" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <ellipse cx="12" cy="5.5" rx="8.5" ry="2.5"></ellipse>
+  <path d="M3.5,5.5 V18 A8.5,2.5 0 0 0 20.5,18 V5.5"></path>
+  <polyline points="3.5,16 6.75,12 10.25,16 13.75,12 17.25,16 20.5,14"></polyline>
+</svg>
+
+<style>
+  .mark {
+    flex: none;
+  }
+</style>

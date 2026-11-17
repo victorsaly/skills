@@ -1,0 +1,425 @@
+---
+// Why: dbtour's landing page is written as the thing dbtour makes, a catalogue entry: dbtour itself as entry 001,
+// its facts in mono caps, the film where an entry draws its map, and each area of the tour as a numbered row with
+// a real still. Every still and the film were taken from dbtour itself, run against Stride (see the note at the end).
+import { getEntry } from 'astro:content';
+import Frame from '../layouts/Frame.astro';
+import { person } from '../lib/person';
+import InstallLine from '../components/InstallLine.astro';
+import DbtourMark from '../components/DbtourMark.astro';
+
+const entry = await getEntry('skills', 'dbtour');
+if (!entry) throw new Error('src/content/skills/dbtour.md is missing');
+const skill = entry.data;
+
+const start = 'npx -y -p dbtour -p dbtour-source-mssql -p dbtour-source-sqlite -p dbtour-addon-explorer -p dbtour-keychain dbtour serve';
+const site = 'https://skills.victorsaly.com';
+const npm = 'https://www.npmjs.com/package/dbtour';
+
+// The tour, one row per area: what it does in plain words, and the still that shows it (at 2x; sizes at 1x).
+const areas = [
+  {
+    no: '01',
+    name: 'Setup',
+    what: 'One line opens a page that sets your database up in five steps: where it is, how dbtour signs in (Entra through az, or a login whose password goes to the system keychain), a test, a read-only login, the read. Nothing is saved until it answers, and nothing in the database changes until you have read the two statements.',
+    still: 'setup',
+    alt: 'The setup at its fourth step: the database, the sign-in and the test folded to one line each, and the two statements that make dbtour_reader shown before a button runs them, with a log of each step beside it.',
+  },
+  {
+    no: '02',
+    name: 'Catalogue',
+    what: 'Every table on one page, numbered, by schema, each drawn as a line with a peak per key and a bar of its size, read from the catalogue and never from a row.',
+    still: 'catalogue',
+    alt: 'The catalogue of Stride: 35 tables in two schemas, each with its line of columns and keys and a bar of its rows and bytes.',
+  },
+  {
+    no: '03',
+    name: 'Entry',
+    what: 'A table gets an entry: how many rows and how big, where it ranks, what it references and what references it, and a map of its neighbourhood.',
+    still: 'entry',
+    alt: 'The entry of dbo.Member: 160 rows, the 3rd largest of 35 tables, 96 KB, four references out and six in, and a map of the eleven tables around it.',
+  },
+  {
+    no: '04',
+    name: 'Protection',
+    what: 'Columns with their types, keys and defaults, and whatever someone protected: sensitivity labels, masking and Always Encrypted, marked where you read the column.',
+    still: 'columns',
+    alt: 'The columns of dbo.Member: DOB labelled Confidential, GDPR, Date Of Birth; Email labelled Confidential, Contact Info; IpAddress labelled Confidential, Networking.',
+  },
+  {
+    no: '05',
+    name: 'Map',
+    what: 'Open the map to draw a table and its neighbours large, by names, keys or every column; add neighbours one at a time, never the whole schema at once.',
+    still: 'map',
+    alt: 'The map of dbo.Member and the tables around it, every column drawn, joined by its keys.',
+  },
+  {
+    no: '06',
+    name: 'Query',
+    what: 'Each entry starts a query from its table and what it references, leaving the protected columns out and saying so. Served by dbtour serve, it runs through the read-only login: checked, rolled back, at most 100 rows.',
+    still: 'query',
+    alt: 'The query dbo.MemberMeasurement starts with, its labelled columns left out with a comment saying which, run through Stride\'s reader: 100 rows in 125 ms.',
+  },
+] as const;
+
+const description =
+  'Schema docs for SQL Server and SQLite, kept in your repository: a page to search, follow relations and run read-only queries, Markdown for GitHub, and the same model for Claude Code and other agents through MCP.';
+const data = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'dbtour',
+    description,
+    url: `${site}/dbtour`,
+    image: `${site}/og/dbtour.png`,
+    applicationCategory: 'DeveloperApplication',
+    applicationSubCategory: 'Database documentation',
+    operatingSystem: 'macOS, Linux, Windows',
+    softwareRequirements: 'Node.js 22.18 or later; SQL Server, Azure SQL or a SQLite file',
+    license: 'https://opensource.org/licenses/MIT',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    sameAs: [skill.repo, npm],
+    author: person,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Skills', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'dbtour', item: `${site}/dbtour` },
+    ],
+  },
+];
+---
+
+<Frame
+  title="dbtour: schema docs for SQL Server and SQLite, for people and agents"
+  description={description}
+  path="/dbtour"
+  skill={{ name: skill.name, href: '/dbtour' }}
+  repo={skill.repo}
+  card={{ path: '/og/dbtour.png', alt: 'dbtour: your database, documented where you work. A table\'s entry, with its rows, size and relations, on a black catalogue page.' }}
+  data={data}
+>
+  <DbtourMark slot="skill-mark" size={16} />
+
+  <article class="field" aria-labelledby="title">
+    <div class="wrap sleeve">
+      <header class="head">
+        <p class="eyebrow"><span class="block" aria-hidden="true"></span><span class="no">001</span><span class="schema">skills.</span></p>
+        <h1 id="title"><DbtourMark size={44} /> dbtour</h1>
+        <p class="facts">
+          <span>SQL Server</span> · <span>Azure SQL</span> · <span>SQLite</span> · <span>MCP</span> · <span>MIT</span>
+        </p>
+        <p class="lede">
+          <b>Your database, documented where you work.</b> dbtour reads the catalogue, never the rows, and writes one
+          model into your repository: a page people search, follow and query, Markdown GitHub shows, and the same tour for
+          your coding agent.
+        </p>
+      </header>
+
+      <section class="start" aria-labelledby="start-title">
+        <h2 id="start-title" class="label">Start in one line</h2>
+        <div class="bar"><span class="label">Shell</span><span class="dot" aria-hidden="true"></span><span class="label quiet">nothing to install first</span></div>
+        <InstallLine command={start} label="Start dbtour in one line" />
+        <p class="hint">Your browser opens on the setup. Run the same line again to come back, or to add another database.</p>
+      </section>
+
+      <section class="tour" id="film" aria-labelledby="film-title">
+        <div class="rule"><h2 id="film-title" class="label">The tour</h2><span class="label quiet">every area, against a real SQL Server</span></div>
+        <video controls playsinline preload="none" poster="/dbtour/film/dbtour.jpg" width="1920" height="1080">
+          <source src="/dbtour/film/dbtour.mp4" type="video/mp4" />
+          <track kind="captions" src="/dbtour/film/dbtour.vtt" srclang="en" label="English" default />
+          <a href="/dbtour/film/dbtour.mp4">Watch the film (MP4)</a>
+        </video>
+      </section>
+
+      <section class="areas" aria-labelledby="areas-title">
+        <div class="rule"><h2 id="areas-title" class="label">Areas</h2><span class="label quiet">{areas.length + 1} of them</span></div>
+        <ol class="rows">
+          {
+            areas.map((a) => (
+              <li class="row">
+                <span class="no">{a.no}</span>
+                <div class="text">
+                  <h3>{a.name}</h3>
+                  <p>{a.what}</p>
+                </div>
+                <a class="still" href={`/dbtour/stills/${a.still}.png`}>
+                  <img src={`/dbtour/stills/${a.still}.png`} width="1440" height="900" loading="lazy" alt={a.alt} />
+                </a>
+              </li>
+            ))
+          }
+          <li class="row agent">
+            <span class="no">07</span>
+            <div class="text">
+              <h3>Your agent</h3>
+              <p>
+                <code>dbtour mcp</code> hands the same model to Claude Code or any MCP client, a piece at a time: an overview, a
+                search, one table, the joins between two. The dbtour skill tells the agent when to use it and to write SQL only
+                with the names the model has. With a reader, it can run a read-only query to check what it wrote.
+              </p>
+            </div>
+            <div class="commands">
+              <InstallLine command={skill.install} label="Install the dbtour skill" />
+              <InstallLine command="claude mcp add dbtour -- npx dbtour mcp" label="Connect dbtour to Claude Code" />
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="project" aria-labelledby="project-title">
+        <div class="rule"><h2 id="project-title" class="label">In a project</h2><span class="label quiet">kept in git, checked in CI</span></div>
+        <pre><code>npm install --save-dev dbtour dbtour-source-mssql dbtour-addon-explorer
+npx dbtour init        # dbtour.yaml: the connection string stays in an environment variable
+npx dbtour extract     # docs/dbtour/schema.json
+npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and index.html</code></pre>
+        <p class="hint">
+          Notes in <code>dbtour.notes.yaml</code> add descriptions and relations the database cannot keep, without altering it. The
+          full guide is in <a href={skill.repo}>the README</a>; the packages are on <a href={npm}>npm</a>.
+        </p>
+      </section>
+
+      <p class="origin">
+        Filmed on <b>Stride</b>: the structure and sizes of a real app's database, with every table and column that could
+        identify it renamed and every row made up, on SQL Server 2022 on this machine. Every frame and still is dbtour
+        itself, version 0.11.
+      </p>
+    </div>
+  </article>
+</Frame>
+
+<style>
+  @font-face {
+    font-family: 'Archivo';
+    src: url('/dbtour/fonts/archivo-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Red Hat Mono';
+    src: url('/dbtour/fonts/red-hat-mono-latin.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+  }
+  /* dbtour's own world inside the shared frame: the matte black catalogue field, hairlines, one red. */
+  .field {
+    --db-bg: #0b0b0b;
+    --db-ink: #f5f5f5;
+    --db-ink-2: #a3a3a3;
+    --db-line: rgba(245, 245, 245, 0.22);
+    --db-red: #e2001a;
+    --db-sans: 'Archivo', system-ui, sans-serif;
+    --db-mono: 'Red Hat Mono', ui-monospace, Menlo, monospace;
+    /* The site's own tokens, in dbtour's colours, so the shared components (the install line) draw on the field. */
+    --paper: var(--db-bg);
+    --ink: var(--db-ink);
+    --quiet: var(--db-ink-2);
+    --hush: #8c8c8c;
+    --rule: var(--db-line);
+    --wash: #161616;
+    --mark: var(--db-red);
+    --mark-ink: var(--db-ink);
+    --mono: var(--db-mono);
+    color-scheme: dark;
+    background: var(--db-bg);
+    color: var(--db-ink);
+    font-family: var(--db-sans);
+    padding: clamp(28px, 5vw, 64px) 0 clamp(40px, 6vw, 80px);
+  }
+  .field a {
+    color: inherit;
+  }
+  .sleeve {
+    display: grid;
+    gap: clamp(36px, 5vw, 56px);
+  }
+  /* A grid item grows to its longest unbroken line (a command) unless told it may be narrower; the page then runs
+     off a phone's edge. */
+  .sleeve > *,
+  .row > * {
+    min-width: 0;
+  }
+  .label {
+    font-family: var(--db-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .quiet {
+    color: var(--db-ink-2);
+  }
+  .head {
+    display: grid;
+    gap: 14px;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--db-mono);
+    color: var(--db-ink-2);
+    margin: 0;
+  }
+  .block {
+    width: 12px;
+    height: 12px;
+    background: var(--db-red);
+  }
+  .eyebrow .no {
+    color: var(--db-red);
+    letter-spacing: 0.14em;
+  }
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--db-sans);
+    font-size: clamp(2.8rem, 1.6rem + 5vw, 5.2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0;
+  }
+  .facts {
+    font-family: var(--db-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--db-ink-2);
+    margin: 0;
+  }
+  .lede {
+    max-width: 62ch;
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+    line-height: 1.55;
+    color: var(--db-ink-2);
+    margin: 0;
+  }
+  .lede b {
+    color: var(--db-ink);
+    font-weight: 600;
+  }
+  .start {
+    display: grid;
+    gap: 10px;
+    max-width: 980px;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3fb950;
+  }
+  .hint {
+    color: var(--db-ink-2);
+    font-size: 0.98rem;
+    margin: 0;
+  }
+  .rule {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 1px solid var(--db-line);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+  video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--db-line);
+    background: #000;
+  }
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 3.2rem minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 16px 28px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--db-line);
+    align-items: start;
+  }
+  .row .no {
+    font-family: var(--db-mono);
+    color: var(--db-ink-2);
+    letter-spacing: 0.14em;
+    padding-top: 4px;
+  }
+  .row h3 {
+    font-family: var(--db-sans);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .row p {
+    color: var(--db-ink-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .still {
+    display: block;
+    border: 1px solid var(--db-line);
+  }
+  .still:hover,
+  .still:focus-visible {
+    outline: 2px solid var(--db-red);
+    outline-offset: 2px;
+  }
+  .still img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .commands {
+    display: grid;
+    gap: 10px;
+  }
+  code {
+    font-family: var(--db-mono);
+  }
+  pre {
+    margin: 0 0 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--db-line);
+    font-family: var(--db-mono);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    color: var(--db-ink);
+  }
+  .origin {
+    max-width: 80ch;
+    color: var(--db-ink-2);
+    font-size: 0.95rem;
+    border-top: 1px solid var(--db-line);
+    padding-top: 18px;
+    margin: 0;
+  }
+  .origin b {
+    color: var(--db-ink);
+  }
+  @media (max-width: 760px) {
+    .row {
+      grid-template-columns: 2.4rem minmax(0, 1fr);
+    }
+    .still,
+    .commands {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

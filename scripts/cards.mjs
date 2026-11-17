@@ -7,6 +7,10 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const asset = (path) => `data:image/png;base64,${readFileSync(`${root}public/${path}`).toString('base64')}`;
+const fontFile = (path) => `data:font/woff2;base64,${readFileSync(`${root}public/${path}`).toString('base64')}`;
+// dbtour's mark, from its brand/mark.svg, in the ink of the card.
+const dbtourMark = (size) =>
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8.5" ry="2.5"/><path d="M3.5,5.5 V18 A8.5,2.5 0 0 0 20.5,18 V5.5"/><polyline points="3.5,16 6.75,12 10.25,16 13.75,12 17.25,16 20.5,14"/></svg>`;
 const font = (pkg, file) =>
   `data:font/woff2;base64,${readFileSync(`${root}node_modules/@fontsource-variable/${pkg}/files/${file}`).toString('base64')}`;
 
@@ -47,6 +51,28 @@ const cards = {
     <div class="col"><span class="label">Before</span><img class="pic" src="${asset('sideshot/pr3/footer-phone-before.png')}" alt=""></div>
     <div class="col"><span class="label after">After</span><img class="pic" src="${asset('sideshot/pr3/footer-phone-after.png')}" alt=""></div>
   </div>`,
+  dbtour: `${base}<style>
+    @font-face { font-family: 'Archivo'; src: url(${fontFile('dbtour/fonts/archivo-latin.woff2')}) format('woff2'); font-weight: 100 900; }
+    @font-face { font-family: 'RedHat'; src: url(${fontFile('dbtour/fonts/red-hat-mono-latin.woff2')}) format('woff2'); font-weight: 300 700; }
+    body { background: #0b0b0b; color: #f5f5f5; font-family: 'Archivo', sans-serif; display: grid; grid-template-columns: 520px 1fr; }
+    .text { padding: 56px 0 48px 60px; display: flex; flex-direction: column; gap: 22px; }
+    .eyebrow { font-family: 'RedHat', monospace; font-size: 22px; color: #a3a3a3; display: flex; align-items: center; gap: 12px; }
+    .eyebrow i { width: 16px; height: 16px; background: #e2001a; } .eyebrow b { color: #e2001a; font-weight: 500; letter-spacing: 0.14em; }
+    .brand { display: flex; align-items: center; gap: 18px; font-size: 76px; font-weight: 600; letter-spacing: -0.03em; }
+    h1 { font-size: 38px; line-height: 1.16; font-weight: 600; letter-spacing: -0.01em; }
+    p { font-size: 22px; line-height: 1.4; color: #a3a3a3; font-family: 'RedHat', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+    .url { margin-top: auto; font-family: 'RedHat', monospace; color: #a3a3a3; }
+    .still { padding: 48px 0 0 8px; overflow: hidden; }
+    .still img { width: 900px; height: auto; border: 1px solid rgba(245,245,245,.22); }
+  </style>
+  <div class="text">
+    <div class="eyebrow"><i></i><b>001</b> skills.</div>
+    <div class="brand">${dbtourMark(64)}dbtour</div>
+    <h1>Your database, documented where you work.</h1>
+    <p>SQL Server · SQLite · MCP · MIT</p>
+    <span class="url">skills.victorsaly.com/dbtour</span>
+  </div>
+  <div class="still"><img src="${asset('dbtour/stills/entry.png')}" alt=""></div>`,
   hub: `${base}<style>
     body { padding: 64px 72px 56px; display: flex; flex-direction: column; border-top: 14px solid #000; }
     .who { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 700; }
@@ -60,7 +86,8 @@ const cards = {
   <div class="who"><i></i>Victor Saly <span>Skills</span></div>
   <h1>Agent skills for Claude Code, Codex and Cursor.</h1>
   <div class="row">
-    <span class="skill"><span class="mark"><i class="b"></i><i class="a"></i></span><span>Side<span class="shot">Shot</span></span><small>before and after, for every PR</small></span>
+    <span class="skill"><span class="mark"><i class="b"></i><i class="a"></i></span><span>Side<span class="shot">Shot</span></span></span>
+    <span class="skill">${dbtourMark(40)}<span>dbtour</span></span>
     <span class="url">skills.victorsaly.com</span>
   </div>`,
 };
