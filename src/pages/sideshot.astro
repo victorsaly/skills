@@ -618,6 +618,10 @@ const data = [
     color: var(--mark-ink);
     background: var(--mark);
   }
+  /* A flag is one word: --new broken after its dashes on a phone reads as two. */
+  .adds code {
+    white-space: nowrap;
+  }
   /* A removed line: what SideShot takes off your hands, in the diff's grey, never marigold. */
   .adds li.del {
     max-width: none;
