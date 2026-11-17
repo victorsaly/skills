@@ -101,7 +101,7 @@ const data = [
 
   <nav class="tabs wrap" aria-label="On this page">
     <a href="#conversation" class="on">Conversation</a>
-    <a href="#files">Files changed <span class="count">5</span></a>
+    <a href="#files">Files changed <span class="count">7</span></a>
     <a href="#merge">Merge</a>
   </nav>
 
@@ -175,7 +175,7 @@ const data = [
   </section>
 
   <section id="files" class="files wrap" aria-labelledby="files-title">
-    <h2 id="files-title" class="files-title">Files changed <span class="count">5</span></h2>
+    <h2 id="files-title" class="files-title">Files changed <span class="count">7</span></h2>
 
     <article class="hunk" aria-labelledby="h-by-hand">
       <header class="hunk-head">
@@ -212,6 +212,20 @@ const data = [
           <img src="/sideshot/marks/after-phone.png" width="780" height="775" loading="lazy" alt="After, on a phone: a marigold ring numbered 1 around the Approve and merge button, a box around the changed buttons, and a dashed rule where the paragraph was removed." />
           <figcaption>A merge gate on a phone, with <code>--note</code> and <code>--mark-changes</code>.</figcaption>
         </figure>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-new">
+      <header class="hunk-head">
+        <h3 id="h-new">Something new, shown as it is</h3>
+        <code>@@ --new @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>A part that was not there before is shown on its own, with nothing drawn on it: there is nothing to compare it with.</li>
+          <li>When all of it is new, the table says <q>What's new</q> instead of before and after.</li>
+          <li>SideShot finds that by itself; <code>--new</code> does it sooner, without opening a <q>before</q> site at all.</li>
+        </ul>
       </div>
     </article>
 
@@ -254,6 +268,20 @@ const data = [
           <li>They live on a <code>sideshot</code> branch that never merges, so the code stays light.</li>
           <li>The table goes between markers in the PR description; running again replaces it instead of adding another.</li>
           <li>On a public repository the pictures are public; on a private one, only those who can read it see them, in the table too.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-private">
+      <header class="hunk-head">
+        <h3 id="h-private">What is private stays out of the pictures</h3>
+        <code>@@ --mask ".customer-name" @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>Email addresses, card numbers, IBANs, keys and tokens, and form fields whose <code>autocomplete</code> says they hold a phone, an address or a name are covered with a solid box on every picture, before it is written.</li>
+          <li>Solid, not blurred: a blur can be read back. The same boxes on before and after, so none is marked as a change.</li>
+          <li>What has no shape to find is not covered by itself: a name in plain text, a field that says nothing of what it holds, words in an image, a canvas, a video or an iframe. Cover it with <code>--mask</code> or <code>data-sideshot-mask</code> in the page, or picture stand-in data, and look before you publish.</li>
         </ul>
       </div>
     </article>
@@ -589,6 +617,10 @@ const data = [
     text-align: center;
     color: var(--mark-ink);
     background: var(--mark);
+  }
+  /* A flag is one word: --new broken after its dashes on a phone reads as two. */
+  .adds code {
+    white-space: nowrap;
   }
   /* A removed line: what SideShot takes off your hands, in the diff's grey, never marigold. */
   .adds li.del {
