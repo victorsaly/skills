@@ -8,6 +8,7 @@ import { person } from '../lib/person';
 import InstallLine from '../components/InstallLine.astro';
 import DbtourMark from '../components/DbtourMark.astro';
 import DbtourFamilyIcon from '../components/DbtourFamilyIcon.astro';
+import example from '../data/dbtour-example.json';
 
 const entry = await getEntry('skills', 'dbtour');
 if (!entry) throw new Error('src/content/skills/dbtour.md is missing');
@@ -16,7 +17,6 @@ const skill = entry.data;
 const start = 'npx -y -p dbtour -p dbtour-source-mssql -p dbtour-source-sqlite -p dbtour-addon-explorer -p dbtour-keychain dbtour serve';
 const site = 'https://skills.victorsaly.com';
 const npm = 'https://www.npmjs.com/package/dbtour';
-
 // The tour, one row per area: what it does in plain words, and the still that shows it (at 2x; sizes at 1x).
 const areas = [
   {
@@ -262,6 +262,21 @@ const data = [
           <source src="/dbtour/film/dbtour-teaser.mp4" type="video/mp4" />
           <a href="/dbtour/film/dbtour-teaser.mp4">Watch the teaser (MP4)</a>
         </video>
+      </section>
+
+      <section class="live" id="example" aria-labelledby="live-title">
+        <div class="rule"><h2 id="live-title" class="label">Try it</h2><span class="label quiet">nothing to install</span></div>
+        <p class="intro">
+          Not a picture: this is the one HTML file <code>dbtour render</code> writes, here for three databases on one
+          page. Shop is made up and on SQL Server; Chinook and Northwind are two well-known samples, read as SQLite
+          files. Choose one, switch to another from the rail, search across all three, open a table, follow a relation,
+          open the map, write a query in each one's own SQL. It holds the structure and no rows, so a query is written here and run on your own machine.
+        </p>
+        <iframe src="/dbtour/example" title="dbtour's live example: three databases on one page" loading="lazy"></iframe>
+        <p class="open">
+          <a href="/dbtour/example">Open the example on its own page</a>
+          <span class="label quiet">dbtour {example.version}{example.released ? '' : ', not released yet'} · <a href={`${skill.repo}/tree/${example.released ? `v${example.version}` : 'main'}/examples/several`}>examples/several</a></span>
+        </p>
       </section>
 
       <section class="ways" aria-labelledby="family-title">
@@ -740,6 +755,37 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
   .teaser {
     margin-bottom: 40px;
   }
+  /* The live example: the rendered page in a frame, tall enough for an entry and its map. */
+  .live iframe {
+    display: block;
+    width: 100%;
+    height: min(760px, 82vh);
+    border: 1px solid var(--db-line);
+    background: #f3f3f1;
+  }
+  .open {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px 24px;
+    margin: 14px 0 0;
+  }
+  .open > a {
+    font-family: var(--db-mono);
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--db-ink);
+    padding: 12px 16px;
+  }
+  .open > a:hover,
+  .open > a:focus-visible {
+    background: var(--db-ink);
+    color: var(--db-bg);
+  }
   .members {
     list-style: none;
     margin: 0;
@@ -962,6 +1008,10 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
     color: var(--db-ink);
   }
   @media (max-width: 760px) {
+    /* A page inside a page takes the scroll from a thumb: on a phone the example opens on its own. */
+    .live iframe {
+      display: none;
+    }
     .row {
       grid-template-columns: 2.4rem minmax(0, 1fr);
     }

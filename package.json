@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "wrangler dev",
     "deploy": "npm run build && wrangler deploy",
-    "cards": "node scripts/cards.mjs"
+    "cards": "node scripts/cards.mjs",
+    "example": "node scripts/example.mjs"
   },
   "dependencies": {
     "@fontsource-variable/atkinson-hyperlegible-mono": "^5.3.0",
