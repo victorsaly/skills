@@ -17,10 +17,6 @@ const skill = entry.data;
 const start = 'npx -y -p dbtour -p dbtour-source-mssql -p dbtour-source-sqlite -p dbtour-addon-explorer -p dbtour-keychain dbtour serve';
 const site = 'https://skills.victorsaly.com';
 const npm = 'https://www.npmjs.com/package/dbtour';
-// The release the live example in public/dbtour/example was rendered with: `npm run example -- <version>` writes
-// both the page and this, so the line under the example cannot name another.
-const exampleVersion = example.version;
-
 // The tour, one row per area: what it does in plain words, and the still that shows it (at 2x; sizes at 1x).
 const areas = [
   {
@@ -271,14 +267,15 @@ const data = [
       <section class="live" id="example" aria-labelledby="live-title">
         <div class="rule"><h2 id="live-title" class="label">Try it</h2><span class="label quiet">nothing to install</span></div>
         <p class="intro">
-          Not a picture: this is the one HTML file <code>dbtour render</code> writes, for a made-up shop of six tables.
-          Search it, open a table, follow a relation, open the map, write a query. It holds the structure and no rows,
-          so a query is written here and run on your own machine.
+          Not a picture: this is the one HTML file <code>dbtour render</code> writes, here for three databases on one
+          page. Shop is made up and on SQL Server; Chinook and Northwind are two well-known samples, read as SQLite
+          files. Search across all three, open a table, follow a relation, open the map, write a query in each one's
+          own SQL. It holds the structure and no rows, so a query is written here and run on your own machine.
         </p>
-        <iframe src="/dbtour/example" title="dbtour's live example: the catalogue of a made-up shop" loading="lazy"></iframe>
+        <iframe src="/dbtour/example" title="dbtour's live example: three databases on one page" loading="lazy"></iframe>
         <p class="open">
           <a href="/dbtour/example">Open the example on its own page</a>
-          <span class="label quiet">dbtour {exampleVersion} · <a href={`${skill.repo}/tree/v${exampleVersion}/examples/shop`}>examples/shop</a></span>
+          <span class="label quiet">dbtour {example.version}{example.released ? '' : ', not released yet'} · <a href={`${skill.repo}/tree/${example.released ? `v${example.version}` : 'main'}/examples/several`}>examples/several</a></span>
         </p>
       </section>
 
