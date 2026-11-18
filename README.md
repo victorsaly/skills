@@ -15,6 +15,7 @@ npm install
 npm run dev       # http://localhost:4321
 npm run build     # astro check, then the static site in dist/
 npm run deploy    # build, then wrangler deploy (claims skills.victorsaly.com)
+npm run example   # dbtour's live example, rendered again from a release: npm run example -- 0.11.1
 ```
 
 ## Add a skill

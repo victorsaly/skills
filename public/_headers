@@ -1,0 +1,4 @@
+# The live example is dbtour's rendered page carried as it is: for people to try, not a page of this site to
+# list in a search, where its title ("Shop") would say nothing of where it came from.
+/dbtour/example
+  X-Robots-Tag: noindex
