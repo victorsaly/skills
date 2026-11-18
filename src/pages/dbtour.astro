@@ -1,0 +1,973 @@
+---
+// Why: dbtour's landing page is written as the thing dbtour makes, a catalogue entry: dbtour itself as entry 001,
+// its facts in mono caps, the film where an entry draws its map, and each area of the tour as a numbered row with
+// a real still. Every still and the film were taken from dbtour itself, run against Stride (see the note at the end).
+import { getEntry } from 'astro:content';
+import Frame from '../layouts/Frame.astro';
+import { person } from '../lib/person';
+import InstallLine from '../components/InstallLine.astro';
+import DbtourMark from '../components/DbtourMark.astro';
+import DbtourFamilyIcon from '../components/DbtourFamilyIcon.astro';
+
+const entry = await getEntry('skills', 'dbtour');
+if (!entry) throw new Error('src/content/skills/dbtour.md is missing');
+const skill = entry.data;
+
+const start = 'npx -y -p dbtour -p dbtour-source-mssql -p dbtour-source-sqlite -p dbtour-addon-explorer -p dbtour-keychain dbtour serve';
+const site = 'https://skills.victorsaly.com';
+const npm = 'https://www.npmjs.com/package/dbtour';
+
+// The tour, one row per area: what it does in plain words, and the still that shows it (at 2x; sizes at 1x).
+const areas = [
+  {
+    no: '01',
+    name: 'Setup',
+    what: 'One line opens a page that sets your database up in five steps: where it is, how dbtour signs in (Entra through az, or a login whose password goes to the system keychain), a test, a read-only login, the read. Nothing is saved until it answers, and nothing in the database changes until you have read the two statements.',
+    still: 'setup',
+    look: "Adding a database",
+    points: ["On the left, the five steps. The ones done fold to a line each: where the database is, how dbtour signs in, the test.", "In the middle, the two SQL statements that would make a login that can only read. They are shown before anything runs; nothing changes until you press the button.", "On the right, a log of each step as it happens."],
+    alt: 'The setup at its fourth step: the database, the sign-in and the test folded to one line each, and the two statements that make dbtour_reader shown before a button runs them, with a log of each step beside it.',
+  },
+  {
+    no: '02',
+    name: 'Catalogue',
+    what: 'Every table on one page, numbered, by schema, each drawn as a line with a peak per key and a bar of its size, read from the catalogue and never from a row.',
+    still: 'catalogue',
+    look: "Every table at a glance",
+    points: ["Each row is a table, numbered, its square coloured by schema.", "The line is the table’s columns, a peak for each key.", "The bar is its size against the largest table: data in black, indexes in white. The figures are the database’s own counts; no row is read.", "Catalogue, Rows and Size order the list; the rail on the left searches and opens the map of everything."],
+    alt: 'The catalogue of Stride: 35 tables in two schemas, each with its line of columns and keys and a bar of its rows and bytes.',
+  },
+  {
+    no: '03',
+    name: 'Entry',
+    what: 'A table gets an entry: how many rows and how big, where it ranks, what it references and what references it, and a map of its neighbourhood.',
+    still: 'entry',
+    look: "One table’s page",
+    points: ["The header: how many columns and keys, what the table references and what references it, and buttons to open the map or copy the table for an AI agent.", "Its size: rows and bytes, and where it ranks among all the tables.", "Around it: a small map of the tables it connects to.", "On the right, every relation both ways, as links to those tables."],
+    alt: 'The entry of dbo.Member: 160 rows, the 3rd largest of 35 tables, 96 KB, four references out and six in, and a map of the eleven tables around it.',
+  },
+  {
+    no: '04',
+    name: 'Protection',
+    what: 'Columns with their types, keys and defaults, and whatever someone protected: sensitivity labels, masking and Always Encrypted, marked where you read the column.',
+    still: 'columns',
+    look: "Which columns are sensitive",
+    points: ["Each column with its type, whether it may be empty, its default and its key.", "Protection shows what someone marked in the database: a sensitivity label (here, GDPR and contact details), masking or encryption.", "Columns marked like this are left out of the queries dbtour writes for you, and it says so."],
+    alt: 'The columns of dbo.Member: DOB labelled Confidential, GDPR, Date Of Birth; Email labelled Confidential, Contact Info; IpAddress labelled Confidential, Networking.',
+  },
+  {
+    no: '05',
+    name: 'Map',
+    what: 'Open the map to draw a table and its neighbours large, by names, keys or every column; add neighbours one at a time, never the whole schema at once.',
+    still: 'map',
+    look: "A table and its neighbours, drawn large",
+    points: ["Each box is a table; each line is a relation, labelled with the column that links them.", "Names, Keys or Columns: how much of each table to draw.", "+ on a table adds its neighbours, so a large database never arrives all at once."],
+    alt: 'The map of dbo.Member and the tables around it, every column drawn, joined by its keys.',
+  },
+  {
+    no: '06',
+    name: 'Query',
+    what: 'Each entry starts a query from its table and what it references, leaving the protected columns out and saying so. Served by dbtour serve, it runs through the read-only login: checked, rolled back, at most 100 rows.',
+    still: 'query',
+    look: "A query the table starts for you",
+    points: ["Written from the table and what it references, with readable names joined in.", "A comment says which protected columns were left out, and how to add them back.", "Run through the read-only login: checked first, always rolled back, at most 100 rows."],
+    alt: 'The query dbo.MemberMeasurement starts with, its labelled columns left out with a comment saying which, run through Stride\'s reader: 100 rows in 125 ms.',
+  },
+  {
+    no: '07',
+    name: 'Write SQL',
+    what: 'An editor that knows the model: it completes tables and columns, offers the join a relation records as soon as you type ON, marks a name the model does not have, and hands the query to an agent with the tables it reads.',
+    still: 'write',
+    look: "An editor that knows your database",
+    points: ["It completes table and column names as you type.", "After ON, it offers the join a relation records: here mm.MemberId = m.Id.", "A name the database does not have gets a red wavy line.", "Copy the query, or copy it for an AI agent with the tables it reads."],
+    alt: 'The SQL page: SELECT from dbo.Member joined to dbo.MemberMeasurement, with autocomplete offering mm.MemberId = m.Id, the relation between the two tables.',
+  },
+] as const;
+
+// What is done, what comes next and what is planned, in the order of PLAN.md; the plan is the source.
+const roadmap = [
+  { state: 'released', label: 'Released', items: ['SQL Server and Azure SQL', 'SQLite', 'The page: search, entries, the map, SQL', 'The MCP server, the skill and the Claude Code plugin', 'Setup on the page, passwords in the keychain'] },
+  { state: 'next', label: 'Next', items: ['PostgreSQL'] },
+  { state: 'planned', label: 'Planned', items: ['MySQL, and schemas from tbls or pasted in', 'OpenAPI: which endpoint reads which table', 'A deploy workflow and dbtour check for CI', 'Index and table usage on each entry', 'Descriptions an agent suggests, kept for your review', 'Lookup values you choose to keep, beside their codes'] },
+] as const;
+
+// Each member, in and out: what you give it and what it gave back, run on examples/shop or a two-table SQLite
+// file; the skill's is an agent's reply from one of dbtour's evals, graded.
+const examples = [
+  {
+    "icon": "app",
+    "name": "The app",
+    "input": "npx -y -p dbtour … dbtour serve",
+    "output": "Serving the setup at http://127.0.0.1:4321\nNothing is set up yet: the page at http://127.0.0.1:4321/ walks you through it. Ctrl+C to stop.",
+    "note": "The browser opens on the setup; five steps later, on the catalogue."
+  },
+  {
+    "icon": "cli",
+    "name": "The CLI",
+    "input": "cd examples/shop\nnpx dbtour render",
+    "output": "Wrote 8 files to docs.\n\n# docs/tables/dbo.Orders.md\n# dbo.Orders\n\nOne row per checkout. The lines are in dbo.OrderLines.\n\nAbout 312,904 rows · 29 MB of data · 9.3 MB of indexes, as the database counted them on 2026-11-01.\n…\n| CustomerId | int | no |  | FK → [dbo.Customers](dbo.Customers.md).Id |  |\n| Status | tinyint | no | `((0))` |  | 0 draft, 1 paid, 2 shipped, 9 cancelled |\n…",
+    "note": "One Markdown page per table, with its diagram, and index.html."
+  },
+  {
+    "icon": "skill",
+    "name": "The skill",
+    "input": "This project has dbtour set up and its MCP server is connected. Write me a SQL Server query for each customer's total of paid orders this year, largest first.\n\nDon't run anything: tell me how you'll find the tables and columns, then the query.",
+    "output": "I'm not going to fill the query in with likely-sounding names like dbo.Orders or Total. A guessed name can look right and still sum the wrong column. […]\n\n1. overview: lists the databases and their tables, largest first. […]\n2. search for order, customer, paid / payment / status, and total / amount. […]\n3. table on each table I'll use […] If nothing says, I'll ask you rather than guess.\n4. path between orders and customers if they aren't directly related, to get the JOIN.\n[…]",
+    "note": "An agent's reply with the skill, from dbtour's evals (sql-reads-first), graded “reads the tables first”: pass."
+  },
+  {
+    "icon": "mcp",
+    "name": "The MCP server",
+    "input": "{\"name\": \"path\",\n \"arguments\": {\"from\": \"dbo.OrderLines\", \"to\": \"dbo.Customers\"}}",
+    "output": "dbo.OrderLines to dbo.Customers: 2 joins.\n\nFROM [dbo].[OrderLines]\nJOIN [dbo].[Orders] ON [dbo].[Orders].[Id] = [dbo].[OrderLines].[OrderId]\nJOIN [dbo].[Customers] ON [dbo].[Customers].[Id] = [dbo].[Orders].[CustomerId]\n\nEach JOIN follows a relation as the docs record it; read the tables to choose the columns and whether a LEFT JOIN suits.",
+    "note": "Also overview, search and table; query when a source has a reader."
+  },
+  {
+    "icon": "plugin",
+    "name": "The Claude Code plugin",
+    "input": "/plugin marketplace add victorsaly/dbtour\n/plugin install dbtour@dbtour\n\nthen its search tool:\n{\"name\": \"search\", \"arguments\": {\"query\": \"customer email\"}}",
+    "output": "- column dbo.Customers.Email: Login address.",
+    "note": "The skill and the MCP server, installed together."
+  },
+  {
+    "icon": "packages",
+    "name": "The packages",
+    "input": "# dbtour.yaml\nsources:\n  - type: sqlite\n    name: Notes\n    file: notes.db\n    reader: read-only\n\nnpx dbtour extract\nnpx dbtour sql \"SELECT a.name, COUNT(*) AS notes FROM notes n JOIN authors a ON a.id = n.author_id GROUP BY a.name\"\nnpx dbtour sql \"DELETE FROM notes\"",
+    "output": "Notes: 2 tables, 1 relations\nWrote docs/schema.json. Run dbtour render to write the docs.\n\n| name | notes |\n|---|---|\n| Ada | 2 |\n| Lin | 1 |\n\n2 rows.\n\nThe query starts with DELETE: dbtour runs only a SELECT, or a WITH followed by a SELECT.",
+    "note": "dbtour-source-sqlite: a file, opened read-only, nothing else to install. The refused query exits 1."
+  }
+] as const;
+
+// What a newcomer asks first, answered plainly.
+const questions = [
+  {
+    "q": "What does dbtour do, in one line?",
+    "a": "It shows you what is inside a database: every table, what it holds, how big it is and how it connects. You browse it as a page, keep it as docs in your repository, and hand it to your AI assistant."
+  },
+  {
+    "q": "Does it read my data?",
+    "a": "No. To document a database it reads only its structure: tables, columns, keys and the sizes the database already counts. Rows are read only when you run a query yourself, through a read-only login, at most 100 rows, always rolled back, and never written into the docs."
+  },
+  {
+    "q": "Will it change my database?",
+    "a": "No. The one exception is the read-only login it can make for queries, and only after it shows you the two statements and you press the button. You can skip it."
+  },
+  {
+    "q": "Which databases does it work with?",
+    "a": "SQL Server, Azure SQL and SQLite today. PostgreSQL is next and MySQL is planned."
+  },
+  {
+    "q": "Where do my passwords go?",
+    "a": "Into your system’s keychain (macOS Keychain, Windows Credential Manager, the Secret Service on Linux). In a project, the connection string stays in an environment variable that dbtour.yaml names; it is never written to a file."
+  },
+  {
+    "q": "Does my database’s structure go to an AI?",
+    "a": "Only if you use an agent. The page and the docs stay on your machine or wherever you put them. What the MCP server answers your agent goes to the model provider that agent uses, so a schema that must not leave your network needs a model that stays inside it."
+  },
+  {
+    "q": "What do I need to run it?",
+    "a": "Node.js 22.18 or newer. The one line at the top downloads the rest; nothing is installed for good until you choose to."
+  },
+  {
+    "q": "Can my team use it?",
+    "a": "Yes: the page is one HTML file and the docs are Markdown, so they live in your repository and can be deployed to any static host behind your own sign-in. A deploy workflow for CI is on the roadmap."
+  },
+  {
+    "q": "Which AI agents does it work with?",
+    "a": "Claude Code, Codex, Cursor and any client that speaks MCP. The skill teaches the agent to look tables up before it writes SQL."
+  },
+  {
+    "q": "What does it cost?",
+    "a": "Nothing. It is open source under the MIT licence."
+  }
+] as const;
+
+// The family: one model of the database, and each way to use it, with how to get it.
+const family = [
+  { no: 'A', icon: 'app', name: 'The app', what: 'The page: set a database up, search the catalogue, read an entry, open the map, write and run read-only SQL. On your machine through dbtour serve, or one HTML file you deploy.', get: 'dbtour serve' },
+  { no: 'B', icon: 'cli', name: 'The CLI', what: 'init, extract, render, sql, serve, mcp: the model and its Markdown kept in your repository and checked in CI.', get: 'npm i -D dbtour' },
+  { no: 'C', icon: 'skill', name: 'The skill', what: 'Teaches an agent when to reach for dbtour, and to write SQL only from the names the model has.', get: 'npx skills add victorsaly/dbtour -g' },
+  { no: 'D', icon: 'mcp', name: 'The MCP server', what: 'The model a piece at a time for any MCP client: an overview, a search, one table, the joins between two.', get: 'claude mcp add dbtour -- npx dbtour mcp' },
+  { no: 'E', icon: 'plugin', name: 'The Claude Code plugin', what: 'The skill and the MCP server in one install.', get: '/plugin marketplace add victorsaly/dbtour\n/plugin install dbtour@dbtour' },
+  { no: 'F', icon: 'packages', name: 'The packages', what: 'A source per database (SQL Server, SQLite), the page and the keychain, so you install only what you use.', get: 'dbtour-source-mssql · dbtour-source-sqlite · dbtour-addon-explorer · dbtour-keychain' },
+] as const;
+
+const description =
+  'Schema docs for SQL Server and SQLite, kept in your repository: a page to search, follow relations and run read-only queries, Markdown for GitHub, and the same model for Claude Code and other agents through MCP.';
+const data = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'dbtour',
+    description,
+    url: `${site}/dbtour`,
+    image: `${site}/og/dbtour.png`,
+    applicationCategory: 'DeveloperApplication',
+    applicationSubCategory: 'Database documentation',
+    operatingSystem: 'macOS, Linux, Windows',
+    softwareRequirements: 'Node.js 22.18 or later; SQL Server, Azure SQL or a SQLite file',
+    license: 'https://opensource.org/licenses/MIT',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    sameAs: [skill.repo, npm],
+    author: person,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Skills', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'dbtour', item: `${site}/dbtour` },
+    ],
+  },
+];
+---
+
+<Frame
+  title="dbtour: schema docs for SQL Server and SQLite, for people and agents"
+  description={description}
+  path="/dbtour"
+  skill={{ name: skill.name, href: '/dbtour' }}
+  repo={skill.repo}
+  card={{ path: '/og/dbtour.png', alt: 'dbtour: your database, documented where you work. A table\'s entry, with its rows, size and relations, on a black catalogue page.' }}
+  data={data}
+>
+  <DbtourMark slot="skill-mark" size={16} />
+
+  <article class="field" aria-labelledby="title">
+    <div class="wrap sleeve">
+      <header class="head">
+        <p class="eyebrow"><span class="block" aria-hidden="true"></span><span class="no">001</span><span class="schema">skills.</span></p>
+        <h1 id="title"><DbtourMark size={44} /> dbtour</h1>
+        <p class="facts">
+          <span>SQL Server</span> · <span>Azure SQL</span> · <span>SQLite</span> · <span>MCP</span> · <span>MIT</span>
+        </p>
+        <p class="plain">
+          dbtour shows you what is inside a database: every table, what it holds, how big it is and how it connects. You
+          browse it as a page, keep it as docs in your repository, and hand it to your AI assistant. It documents a database
+          from its structure, never its data; rows are read only when you run a query, through a login that can only read.
+        </p>
+        <p class="lede">
+          <b>Your database, documented where you work.</b> To document it, dbtour reads the catalogue, never the rows,
+          and writes one model into your repository: a page people search, follow and query, Markdown GitHub shows, and the same tour for
+          your coding agent.
+        </p>
+      </header>
+
+      <section class="teaser" aria-labelledby="teaser-title">
+        <div class="rule"><h2 id="teaser-title" class="label">In 30 seconds</h2><span class="label quiet">what it does, no setup</span></div>
+        <p class="intro">30 seconds, music only: what dbtour does once a database is set up, one feature after another.</p>
+        <video id="teaser" autoplay muted loop playsinline controls preload="metadata" poster="/dbtour/film/dbtour-teaser.jpg" width="1920" height="1080"
+          aria-label="dbtour in 30 seconds: every table, ranked by size, search, a page per table, every relation, protected columns, the map, read-only queries, autocomplete that knows the joins, copy for any agent, and the same tour over MCP.">
+          <source src="/dbtour/film/dbtour-teaser.mp4" type="video/mp4" />
+          <a href="/dbtour/film/dbtour-teaser.mp4">Watch the teaser (MP4)</a>
+        </video>
+      </section>
+
+      <section class="ways" aria-labelledby="family-title">
+        <div class="rule"><h2 id="family-title" class="label">The family</h2><span class="label quiet">one model, six ways to use it</span></div>
+        <ol class="members">
+          {
+            family.map((m) => (
+              <li class="member">
+                <span class="top"><DbtourFamilyIcon member={m.icon} size={44} /><span class="label letter">{m.no}</span></span>
+                <h3>{m.name}</h3>
+                <p>{m.what}</p>
+                <code>{m.get}</code>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="inout" aria-labelledby="inout-title">
+        <div class="rule"><h2 id="inout-title" class="label">In and out</h2><span class="label quiet">what dbtour printed; … marks a cut</span></div>
+        <ol class="pairs">
+          {
+            examples.map((e) => (
+              <li class="pair">
+                <h3><DbtourFamilyIcon member={e.icon} size={28} /> {e.name}</h3>
+                <div class="io">
+                  <div><span class="label quiet">In</span><pre>{e.input}</pre></div>
+                  <div><span class="label quiet">Out</span><pre class="out">{e.output}</pre></div>
+                </div>
+                <p>{e.note}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="start" aria-labelledby="start-title">
+        <h2 id="start-title" class="label">Start in one line</h2>
+        <div class="bar"><span class="label">Shell</span><span class="dot" aria-hidden="true"></span><span class="label quiet">nothing to install first</span></div>
+        <InstallLine command={start} label="Start dbtour in one line" />
+        <p class="hint">Your browser opens on the setup. Run the same line again to come back, or to add another database.</p>
+      </section>
+
+      <section class="tour" id="film" aria-labelledby="film-title">
+        <div class="rule"><h2 id="film-title" class="label">The tour</h2><span class="label quiet">every area, against a real SQL Server</span></div>
+        <p class="intro">
+          A minute and a half, narrated and captioned: from one command to a documented SQL Server database, then the same
+          tour for an AI agent. The database is a demo with made-up rows.
+        </p>
+        <video controls playsinline preload="none" poster="/dbtour/film/dbtour.jpg" width="1920" height="1080">
+          <source src="/dbtour/film/dbtour.mp4" type="video/mp4" />
+          <track kind="captions" src="/dbtour/film/dbtour.vtt" srclang="en" label="English" default />
+          <a href="/dbtour/film/dbtour.mp4">Watch the film (MP4)</a>
+        </video>
+      </section>
+
+      <section class="areas" aria-labelledby="areas-title">
+        <div class="rule"><h2 id="areas-title" class="label">Areas</h2><span class="label quiet">{areas.length + 1} of them</span></div>
+        <ol class="rows">
+          {
+            areas.map((a) => (
+              <li class="row">
+                <span class="no">{a.no}</span>
+                <div class="text">
+                  <h3>{a.name}</h3>
+                  <p>{a.what}</p>
+                </div>
+                <a class="still" href={`/dbtour/stills/${a.still}.png`} data-view={a.still} aria-label={`${a.name}: open the still with what it shows`}>
+                  <img src={`/dbtour/stills/${a.still}.png`} width="1440" height="900" loading="lazy" alt={a.alt} />
+                </a>
+              </li>
+            ))
+          }
+          <li class="row agent">
+            <span class="no">08</span>
+            <div class="text">
+              <h3>Your agent</h3>
+              <p>
+                <code>dbtour mcp</code> hands the same model to Claude Code or any MCP client, a piece at a time: an overview, a
+                search, one table, the joins between two. The dbtour skill tells the agent when to use it and to write SQL only
+                with the names the model has. With a reader, it can run a read-only query to check what it wrote.
+              </p>
+            </div>
+            <div class="commands">
+              <InstallLine command={skill.install} label="Install the dbtour skill" />
+              <InstallLine command="claude mcp add dbtour -- npx dbtour mcp" label="Connect dbtour to Claude Code" />
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="project" aria-labelledby="project-title">
+        <div class="rule"><h2 id="project-title" class="label">In a project</h2><span class="label quiet">kept in git, checked in CI</span></div>
+        <pre><code>npm install --save-dev dbtour dbtour-source-mssql dbtour-addon-explorer
+npx dbtour init        # dbtour.yaml: the connection string stays in an environment variable
+export DBTOUR_MSSQL='Server=…;Database=…;User Id=…;Password=…'   # in your shell, never in a file
+npx dbtour extract     # docs/dbtour/schema.json
+npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and index.html</code></pre>
+        <p class="hint">
+          Notes in <code>dbtour.notes.yaml</code> add descriptions and relations the database cannot keep, without altering it. The
+          full guide is in <a href={skill.repo}>the README</a>; the packages are on <a href={npm}>npm</a>.
+        </p>
+      </section>
+
+      <section class="questions" aria-labelledby="questions-title">
+        <div class="rule"><h2 id="questions-title" class="label">Common questions</h2><span class="label quiet">if you are new to it</span></div>
+        <div class="qa">
+          {
+            questions.map((x) => (
+              <details>
+                <summary>{x.q}</summary>
+                <p>{x.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="roadmap" aria-labelledby="roadmap-title">
+        <div class="rule"><h2 id="roadmap-title" class="label">Roadmap</h2><span class="label quiet"><a href={`${skill.repo}/blob/main/PLAN.md`}>the plan</a> has the detail</span></div>
+        <ol class="road">
+          {
+            roadmap.map((r) => (
+              <li class={`stage ${r.state}`}>
+                <span class="label"><span class="dot" aria-hidden="true"></span>{r.label}</span>
+                <ul>{r.items.map((i) => <li>{i}</li>)}</ul>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <p class="origin">
+        Filmed on <b>Stride</b>: the structure and sizes of a real app's database, with every table and column that could
+        identify it renamed and every row made up, on SQL Server 2022 on this machine. Every frame and still is dbtour
+        itself, version 0.11; the agent's answer in the films is what <code>dbtour mcp</code> returned. Voice and music by
+        ElevenLabs.
+      </p>
+    </div>
+    <dialog id="viewer" class="viewer" aria-labelledby="viewer-title">
+      <div class="viewer-in">
+        <figure>
+          <img id="viewer-img" alt="" width="1440" height="900" />
+          <figcaption>
+            <p class="label"><span id="viewer-no"></span> <span id="viewer-name"></span></p>
+            <h2 id="viewer-title"></h2>
+            <ul id="viewer-points"></ul>
+            <div class="viewer-nav">
+              <button type="button" data-step="-1" aria-label="Previous still">← Previous</button>
+              <button type="button" data-step="1" aria-label="Next still">Next →</button>
+              <button type="button" data-close aria-label="Close the viewer">Close · Esc</button>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </dialog>
+  </article>
+  <script type="application/json" id="viewer-data" set:html={JSON.stringify(areas.map((a) => ({ id: a.still, no: a.no, name: a.name, look: a.look, points: a.points, alt: a.alt })))} />
+  <script>
+    // The stills open large with what each shows; without script, each link still opens the picture.
+    const dialog = document.getElementById('viewer') as HTMLDialogElement | null;
+    const data = JSON.parse(document.getElementById('viewer-data')?.textContent ?? '[]') as { id: string; no: string; name: string; look: string; points: string[]; alt: string }[];
+    let at = 0;
+    const show = (i: number) => {
+      at = (i + data.length) % data.length;
+      const d = data[at];
+      if (!d) return;
+      const img = document.getElementById('viewer-img') as HTMLImageElement;
+      img.src = `/dbtour/stills/${d.id}.png`;
+      img.alt = d.alt;
+      document.getElementById('viewer-no')!.textContent = d.no;
+      document.getElementById('viewer-name')!.textContent = d.name;
+      document.getElementById('viewer-title')!.textContent = d.look;
+      const list = document.getElementById('viewer-points')!;
+      list.replaceChildren(...d.points.map((p) => Object.assign(document.createElement('li'), { textContent: p })));
+    };
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-view]')) {
+      link.addEventListener('click', (event) => {
+        if (!dialog || event.metaKey || event.ctrlKey || event.shiftKey) return;
+        event.preventDefault();
+        show(data.findIndex((d) => d.id === link.dataset.view));
+        dialog.showModal();
+      });
+    }
+    dialog?.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target === dialog || target.closest('[data-close]')) dialog.close();
+      const step = target.closest<HTMLElement>('[data-step]');
+      if (step) show(at + Number(step.dataset.step));
+    });
+    dialog?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') show(at + 1);
+      if (event.key === 'ArrowLeft') show(at - 1);
+    });
+  </script>
+  <script>
+    // The teaser plays by itself, muted, unless the reader asked for less motion; then it waits for a press.
+    const teaser = document.getElementById('teaser') as HTMLVideoElement | null;
+    if (teaser && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      teaser.removeAttribute('autoplay');
+      teaser.pause();
+    }
+  </script>
+</Frame>
+
+<style>
+  @font-face {
+    font-family: 'Archivo';
+    src: url('/dbtour/fonts/archivo-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Red Hat Mono';
+    src: url('/dbtour/fonts/red-hat-mono-latin.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+  }
+  /* dbtour's own world inside the shared frame: the matte black catalogue field, hairlines, one red. */
+  .field {
+    --db-bg: #0b0b0b;
+    --db-ink: #f5f5f5;
+    --db-ink-2: #a3a3a3;
+    --db-line: rgba(245, 245, 245, 0.22);
+    --db-red: #e2001a;
+    /* Red for small text: #e2001a is 3.98:1 on the black, under AA's 4.5:1; this is 5.15:1. Fills keep the brand red. */
+    --db-red-text: #ff1f35;
+    --db-sans: 'Archivo', system-ui, sans-serif;
+    --db-mono: 'Red Hat Mono', ui-monospace, Menlo, monospace;
+    /* The site's own tokens, in dbtour's colours, so the shared components (the install line) draw on the field. */
+    --paper: var(--db-bg);
+    --ink: var(--db-ink);
+    --quiet: var(--db-ink-2);
+    --hush: #8c8c8c;
+    --rule: var(--db-line);
+    --wash: #161616;
+    --mark: var(--db-red);
+    --mark-ink: var(--db-ink);
+    --mono: var(--db-mono);
+    color-scheme: dark;
+    background: var(--db-bg);
+    color: var(--db-ink);
+    font-family: var(--db-sans);
+    padding: clamp(28px, 5vw, 64px) 0 clamp(40px, 6vw, 80px);
+  }
+  .field a {
+    color: inherit;
+  }
+  .sleeve {
+    display: grid;
+    gap: clamp(36px, 5vw, 56px);
+  }
+  /* A grid item grows to its longest unbroken line (a command) unless told it may be narrower; the page then runs
+     off a phone's edge. */
+  .sleeve > *,
+  .row > * {
+    min-width: 0;
+  }
+  .label {
+    font-family: var(--db-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .quiet {
+    color: var(--db-ink-2);
+  }
+  .head {
+    display: grid;
+    gap: 14px;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--db-mono);
+    color: var(--db-ink-2);
+    margin: 0;
+  }
+  .block {
+    width: 12px;
+    height: 12px;
+    background: var(--db-red);
+  }
+  .eyebrow .no {
+    color: var(--db-red-text);
+    letter-spacing: 0.14em;
+  }
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--db-sans);
+    font-size: clamp(2.8rem, 1.6rem + 5vw, 5.2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0;
+  }
+  .facts {
+    font-family: var(--db-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--db-ink-2);
+    margin: 0;
+  }
+  .plain {
+    max-width: 62ch;
+    font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+    line-height: 1.5;
+    color: var(--db-ink);
+    margin: 0;
+  }
+  .intro {
+    color: var(--db-ink-2);
+    margin: 0 0 14px;
+    max-width: 70ch;
+    line-height: 1.55;
+  }
+  .qa {
+    display: grid;
+    border-top: 1px solid var(--db-line);
+  }
+  .qa details {
+    border-bottom: 1px solid var(--db-line);
+    padding: 16px 0;
+  }
+  .qa summary {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .qa summary::-webkit-details-marker {
+    display: none;
+  }
+  .qa summary::after {
+    content: '+';
+    font-family: var(--db-mono);
+    color: var(--db-red-text);
+  }
+  .qa details[open] summary::after {
+    content: '−';
+  }
+  .qa p {
+    color: var(--db-ink-2);
+    line-height: 1.6;
+    margin: 12px 0 0;
+    max-width: 75ch;
+  }
+  .viewer {
+    padding: 0;
+    border: 1px solid var(--db-line);
+    background: #0b0b0b;
+    color: #f5f5f5;
+    width: min(1500px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+  }
+  .viewer::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .viewer-in {
+    overflow: auto;
+    max-height: calc(100vh - 34px);
+  }
+  .viewer figure {
+    margin: 0;
+    display: grid;
+  }
+  .viewer img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #f4f4f2;
+  }
+  /* Wide enough, the explanation sits beside the still, so both are seen at once. */
+  @media (min-width: 960px) {
+    .viewer figure {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      align-items: start;
+    }
+    .viewer img {
+      max-height: calc(100vh - 34px);
+      object-fit: contain;
+    }
+    .viewer figcaption {
+      padding-top: 26px;
+    }
+  }
+  .viewer figcaption {
+    padding: 20px 24px 22px;
+    display: grid;
+    gap: 10px;
+    font-family: var(--db-sans);
+  }
+  .viewer figcaption .label {
+    color: var(--db-red-text);
+  }
+  .viewer h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  .viewer ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #a3a3a3;
+    line-height: 1.6;
+  }
+  .viewer-nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .viewer-nav button {
+    font: 500 0.85rem/1 var(--db-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: transparent;
+    color: #f5f5f5;
+    border: 1px solid rgba(245, 245, 245, 0.4);
+    padding: 10px 14px;
+    cursor: pointer;
+  }
+  .viewer-nav button:hover,
+  .viewer-nav button:focus-visible {
+    border-color: #f5f5f5;
+  }
+  .lede {
+    max-width: 62ch;
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+    line-height: 1.55;
+    color: var(--db-ink-2);
+    margin: 0;
+  }
+  .lede b {
+    color: var(--db-ink);
+    font-weight: 600;
+  }
+  .start {
+    display: grid;
+    gap: 10px;
+    max-width: 980px;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3fb950;
+  }
+  .hint {
+    color: var(--db-ink-2);
+    font-size: 0.98rem;
+    margin: 0;
+  }
+  .rule {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 1px solid var(--db-line);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+  .teaser {
+    margin-bottom: 40px;
+  }
+  .members {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    border-top: 1px solid var(--db-line);
+    border-left: 1px solid var(--db-line);
+  }
+  .member {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 22px 22px 24px;
+    border-right: 1px solid var(--db-line);
+    border-bottom: 1px solid var(--db-line);
+    min-width: 0;
+  }
+  .member .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    color: var(--db-ink);
+    margin-bottom: 6px;
+  }
+  .member .letter {
+    color: var(--db-red-text);
+  }
+  .member h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .member p {
+    color: var(--db-ink-2);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .member code {
+    font-family: var(--db-mono);
+    font-size: 0.82rem;
+    color: var(--db-ink);
+    background: #161616;
+    padding: 8px 10px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    margin-top: 4px;
+  }
+  .pairs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 28px;
+  }
+  .pair {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+  }
+  .pair h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .io {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 12px;
+  }
+  .io > div {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    min-width: 0;
+  }
+  .io pre {
+    margin: 0;
+    font-family: var(--db-mono);
+    font-size: 0.8rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background: #161616;
+    border: 1px solid var(--db-line);
+    padding: 14px 16px;
+    color: var(--db-ink);
+  }
+  .io pre.out {
+    border-left: 3px solid var(--db-red);
+  }
+  .pair p {
+    color: var(--db-ink-2);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .road {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 0;
+    border-top: 1px solid var(--db-line);
+    border-left: 1px solid var(--db-line);
+  }
+  .stage {
+    padding: 22px;
+    border-right: 1px solid var(--db-line);
+    border-bottom: 1px solid var(--db-line);
+    display: grid;
+    align-content: start;
+    gap: 14px;
+  }
+  .stage .label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .stage .dot {
+    width: 10px;
+    height: 10px;
+    background: var(--db-ink-2);
+  }
+  .stage.released .dot {
+    background: #3fb950;
+  }
+  .stage.next .dot {
+    background: var(--db-red);
+  }
+  .stage ul {
+    margin: 0;
+    padding: 0 0 0 18px;
+    color: var(--db-ink-2);
+    line-height: 1.6;
+  }
+  .stage.next ul {
+    color: var(--db-ink);
+  }
+  video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--db-line);
+    background: #000;
+  }
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 3.2rem minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 16px 28px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--db-line);
+    align-items: start;
+  }
+  .row .no {
+    font-family: var(--db-mono);
+    color: var(--db-ink-2);
+    letter-spacing: 0.14em;
+    padding-top: 4px;
+  }
+  .row h3 {
+    font-family: var(--db-sans);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .row p {
+    color: var(--db-ink-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .still {
+    display: block;
+    border: 1px solid var(--db-line);
+  }
+  .still:hover,
+  .still:focus-visible {
+    outline: 2px solid var(--db-red);
+    outline-offset: 2px;
+  }
+  .still img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .commands {
+    display: grid;
+    gap: 10px;
+  }
+  code {
+    font-family: var(--db-mono);
+  }
+  pre {
+    margin: 0 0 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--db-line);
+    font-family: var(--db-mono);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    color: var(--db-ink);
+  }
+  .origin {
+    max-width: 80ch;
+    color: var(--db-ink-2);
+    font-size: 0.95rem;
+    border-top: 1px solid var(--db-line);
+    padding-top: 18px;
+    margin: 0;
+  }
+  .origin b {
+    color: var(--db-ink);
+  }
+  @media (max-width: 760px) {
+    .row {
+      grid-template-columns: 2.4rem minmax(0, 1fr);
+    }
+    .still,
+    .commands {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
