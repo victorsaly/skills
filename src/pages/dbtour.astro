@@ -244,12 +244,12 @@ const data = [
         </p>
         <p class="plain">
           dbtour shows you what is inside a database: every table, what it holds, how big it is and how it connects. You
-          browse it as a page, keep it as docs in your repository, and hand it to your AI assistant. It reads the structure,
-          never your data.
+          browse it as a page, keep it as docs in your repository, and hand it to your AI assistant. It documents a database
+          from its structure, never its data; rows are read only when you run a query, through a login that can only read.
         </p>
         <p class="lede">
-          <b>Your database, documented where you work.</b> dbtour reads the catalogue, never the rows, and writes one
-          model into your repository: a page people search, follow and query, Markdown GitHub shows, and the same tour for
+          <b>Your database, documented where you work.</b> To document it, dbtour reads the catalogue, never the rows,
+          and writes one model into your repository: a page people search, follow and query, Markdown GitHub shows, and the same tour for
           your coding agent.
         </p>
       </header>
@@ -357,6 +357,7 @@ const data = [
         <div class="rule"><h2 id="project-title" class="label">In a project</h2><span class="label quiet">kept in git, checked in CI</span></div>
         <pre><code>npm install --save-dev dbtour dbtour-source-mssql dbtour-addon-explorer
 npx dbtour init        # dbtour.yaml: the connection string stays in an environment variable
+export DBTOUR_MSSQL='Server=…;Database=…;User Id=…;Password=…'   # in your shell, never in a file
 npx dbtour extract     # docs/dbtour/schema.json
 npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and index.html</code></pre>
         <p class="hint">
@@ -486,6 +487,8 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
     --db-ink-2: #a3a3a3;
     --db-line: rgba(245, 245, 245, 0.22);
     --db-red: #e2001a;
+    /* Red for small text: #e2001a is 3.98:1 on the black, under AA's 4.5:1; this is 5.15:1. Fills keep the brand red. */
+    --db-red-text: #ff1f35;
     --db-sans: 'Archivo', system-ui, sans-serif;
     --db-mono: 'Red Hat Mono', ui-monospace, Menlo, monospace;
     /* The site's own tokens, in dbtour's colours, so the shared components (the install line) draw on the field. */
@@ -546,7 +549,7 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
     background: var(--db-red);
   }
   .eyebrow .no {
-    color: var(--db-red);
+    color: var(--db-red-text);
     letter-spacing: 0.14em;
   }
   h1 {
@@ -604,7 +607,7 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
   .qa summary::after {
     content: '+';
     font-family: var(--db-mono);
-    color: var(--db-red);
+    color: var(--db-red-text);
   }
   .qa details[open] summary::after {
     content: '−';
@@ -661,7 +664,7 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
     font-family: var(--db-sans);
   }
   .viewer figcaption .label {
-    color: var(--db-red);
+    color: var(--db-red-text);
   }
   .viewer h2 {
     margin: 0;
@@ -763,7 +766,7 @@ npx dbtour render      # Markdown with Mermaid diagrams, one page per table, and
     margin-bottom: 6px;
   }
   .member .letter {
-    color: var(--db-red);
+    color: var(--db-red-text);
   }
   .member h3 {
     font-size: 1.2rem;
