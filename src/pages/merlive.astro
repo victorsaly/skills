@@ -1,8 +1,9 @@
 ---
 // Why: Merlive's landing page is built as SideShot's is, so the two read as one family: a title that is the
 // sentence you say to your agent, a real before and after first (the same Mermaid block as Mermaid draws it and
-// as Merlive does), the page Merlive wrote to try, what it does as hunks, and the install command as the line
-// that merges. Merlive is not released yet, and the page says so wherever a reader decides.
+// as Merlive does, once for each kind of diagram it draws), the page Merlive wrote to try, what it does as
+// hunks, and the install command as the line that merges. Merlive is not released yet, and the page says so
+// wherever a reader decides.
 import { getEntry } from 'astro:content';
 import Frame from '../layouts/Frame.astro';
 import { person } from '../lib/person';
@@ -15,28 +16,62 @@ const entry = await getEntry('skills', 'merlive');
 if (!entry) throw new Error('src/content/skills/merlive.md is missing');
 const skill = entry.data;
 
-// One block of Mermaid, drawn twice: by Mermaid itself and by Merlive. Both pictures were taken at 2x; the sizes
-// here are theirs at 1x. src/data/merlive-example.json records which versions drew them and what setup printed.
+// Three blocks of Mermaid, one for each kind of diagram Merlive draws, each drawn twice: by Mermaid itself and
+// by Merlive. Every picture was taken at 2x; the sizes here are theirs at 1x, so each shows at its own size.
+// src/data/merlive-example.json records which versions drew them and what setup printed.
 const at = `${skill.repo}/blob/${example.commit}`;
 const source = `${at}/examples/order-approval.md`;
-const pictures = {
-  mermaid: {
-    file: 'mermaid',
-    w: 415,
-    h: 921,
-    alt: 'Mermaid’s own drawing of a purchase order approval flow: the boxes drift left and right down the page, the two decisions are diamonds much larger than the boxes round them, and curved lines sweep back up to Validate order and across to Revise order.',
+const pairs = [
+  {
+    folder: 'order',
+    name: 'Purchase order approval',
+    counts: `A flowchart: ${example.boxes} boxes, ${example.links} links`,
+    mermaid: {
+      w: 415,
+      h: 921,
+      alt: 'Mermaid’s own drawing of a purchase order approval flow: the boxes drift left and right down the page, the two decisions are diamonds much larger than the boxes round them, and curved lines sweep back up to Validate order and across to Revise order.',
+    },
+    merlive: {
+      w: 376,
+      h: 764,
+      alt: 'Merlive’s drawing of the same flow: Submit order down to Order placed in one straight column, the two decisions as rhombuses no bigger than the boxes round them, and Revise order to one side, joined by lines that turn at right angles.',
+    },
   },
-  merlive: {
-    file: 'merlive',
-    w: 376,
-    h: 764,
-    alt: 'Merlive’s drawing of the same flow: Submit order down to Order placed in one straight column of boxes the same size, the two decisions as boxes with cut corners, and Revise order to one side, joined by lines that turn at right angles.',
+  {
+    folder: 'state',
+    name: 'The states of an order',
+    counts: `A state diagram: ${example.state.boxes} boxes, ${example.state.links} links`,
+    mermaid: {
+      w: 157,
+      h: 412,
+      alt: 'Mermaid’s own drawing of an order’s states: a black dot, then Draft, Submitted and Approved in small boxes of three sizes, with two curved lines between Draft and Submitted whose words, submit and send back, sit across them.',
+    },
+    merlive: {
+      w: 286,
+      h: 468,
+      alt: 'Merlive’s drawing of the same states: Start, Draft, Submitted, Approved and End in one straight column of boxes the same size, with the way back from Submitted to Draft going round the right side at right angles, and each line’s words beside it.',
+    },
   },
-};
+  {
+    folder: 'sequence',
+    name: 'Raising an order',
+    counts: `A sequence diagram: ${example.sequence.participants} participants, ${example.sequence.messages} messages`,
+    mermaid: {
+      w: 650,
+      h: 347,
+      alt: 'Mermaid’s own drawing of four messages between Buyer, ERP and Supplier: each name in a large box at the top and again at the foot, with the messages between solid lines.',
+    },
+    merlive: {
+      w: 440,
+      h: 298,
+      alt: 'Merlive’s drawing of the same four messages: Buyer, ERP and Supplier once, at the top, an even step apart, with each message on a row of its own and its words above the line, off every lifeline.',
+    },
+  },
+];
 
 const site = 'https://skills.victorsaly.com';
 const description =
-  'Turns the Mermaid flowcharts in your Markdown into diagrams that look planned, in your own colours, that readers can step through. For Claude Code, Codex, Cursor or any agent. Version 0.1.0, not released yet.';
+  'Turns the Mermaid in your Markdown into diagrams that look planned, in your own colours, that readers can step through: flowcharts, state diagrams and sequence diagrams. For Claude Code, Codex, Cursor or any agent. Version 0.1.0, not released yet.';
 // What search engines are told: only what the page shows. Free, MIT, source on GitHub; no ratings, no counts.
 const data = [
   {
@@ -102,68 +137,74 @@ const data = [
 
   <nav class="tabs wrap" aria-label="On this page">
     <a href="#conversation" class="on">Conversation</a>
-    <a href="#files">Files changed <span class="count">7</span></a>
+    <a href="#files">Files changed <span class="count">8</span></a>
     <a href="#merge">Merge</a>
   </nav>
 
   <section id="conversation" class="conversation wrap" aria-labelledby="conversation-title">
-    <h2 id="conversation-title" class="visually-hidden">What Merlive draws from a Mermaid flowchart</h2>
+    <h2 id="conversation-title" class="visually-hidden">What Merlive draws from Mermaid</h2>
     <div class="comment">
       <p class="comment-head">
-        <span class="who"><MerliveMark size={16} /><span><b>Merlive</b> drew this from the first Mermaid block of <a class="nowrap" href={source}>order-approval.md</a>, its own example</span></span>
+        <span class="who"><MerliveMark size={16} /><span><b>Merlive</b> drew these from its own example, <a class="nowrap" href={source}>order-approval.md</a>, and from <a class="nowrap" href={`${at}/corpus/kinds/state.mmd`}>a state diagram</a> and <a class="nowrap" href={`${at}/corpus/kinds/sequence.mmd`}>a sequence diagram</a> it is tested on</span></span>
       </p>
       <div class="comment-body">
         <div class="md-row">
           <h3 class="md-h2">Before and after</h3>
-          <p class="md-strong">One Mermaid block, drawn twice</p>
+          <p class="md-strong">Three Mermaid blocks, each drawn twice</p>
         </div>
-        <div class="table" role="group" aria-label="The same flowchart as Mermaid draws it and as Merlive draws it">
+        <div class="table" role="group" aria-label="A flowchart, a state diagram and a sequence diagram, each as Mermaid draws it and as Merlive draws it">
           <div class="cols" aria-hidden="true"><span></span><span>Mermaid</span><span>Merlive</span></div>
-          <figure class="row">
-            <figcaption>
-              <b>Purchase order approval</b>
-              <span>{example.boxes} boxes, {example.links} links</span>
-            </figcaption>
-            <a href="/merlive/order/mermaid.png" class="shot">
-              <img
-                src="/merlive/order/mermaid.png"
-                width={pictures.mermaid.w}
-                height={pictures.mermaid.h}
-                style={`--w: ${pictures.mermaid.w}px`}
-                loading="eager"
-                alt={pictures.mermaid.alt}
-              />
-            </a>
-            <a href="/merlive/order/merlive.png" class="shot">
-              <img
-                src="/merlive/order/merlive.png"
-                width={pictures.merlive.w}
-                height={pictures.merlive.h}
-                style={`--w: ${pictures.merlive.w}px`}
-                loading="eager"
-                alt={pictures.merlive.alt}
-              />
-            </a>
-          </figure>
+          {
+            pairs.map((p) => (
+              <figure class="row">
+                <figcaption>
+                  <b>{p.name}</b>
+                  <span>{p.counts}</span>
+                </figcaption>
+                <a href={`/merlive/${p.folder}/mermaid.png`} class="shot">
+                  <img
+                    src={`/merlive/${p.folder}/mermaid.png`}
+                    width={p.mermaid.w}
+                    height={p.mermaid.h}
+                    style={`--w: ${p.mermaid.w}px`}
+                    loading={p.folder === 'order' ? 'eager' : 'lazy'}
+                    alt={p.mermaid.alt}
+                  />
+                </a>
+                <a href={`/merlive/${p.folder}/merlive.png`} class="shot">
+                  <img
+                    src={`/merlive/${p.folder}/merlive.png`}
+                    width={p.merlive.w}
+                    height={p.merlive.h}
+                    style={`--w: ${p.merlive.w}px`}
+                    loading={p.folder === 'order' ? 'eager' : 'lazy'}
+                    alt={p.merlive.alt}
+                  />
+                </a>
+              </figure>
+            ))
+          }
         </div>
         <p class="md-strong">What changed</p>
         <ul class="notes">
           <li>The main path, from Submit order to Order placed, runs in one straight line</li>
-          <li>Every box is the same size, and a decision is a box with cut corners, not a diamond twice as big</li>
+          <li>Every box is the same size, and a decision is still a rhombus, no bigger than the boxes round it</li>
           <li>The ways back to Revise order turn at right angles and go round the boxes</li>
+          <li>The state diagram is placed by the same rules: its path straight, the way back to Draft round one side, each line's words beside it</li>
+          <li>The sequence diagram names each participant once, an even step apart, with each message's words off every lifeline</li>
         </ul>
-        <p class="md-sub">Before: Mermaid {example.mermaid}, as it comes. After: Merlive {example.version}, not released yet, in colours it read from this site. The block is the same, and nobody edited it. Open a picture for its full size.</p>
+        <p class="md-sub">Before: Mermaid {example.mermaid}, as it comes. After: Merlive {example.version}, not released yet, in colours it read from this site. Each block is the same on both sides, and nobody edited one. Open a picture for its full size.</p>
       </div>
     </div>
     <p class="caption">
-      A real pair from one block of Mermaid. Nobody placed a box and nobody chose a colour. Merlive read this site's
+      Real pairs, each from one block of Mermaid. Nobody placed a box and nobody chose a colour. Merlive read this site's
       own stylesheet and found the white page, the black text, the marigold and the typeface. The colours for the
       kinds of box are its own, checked against that page.
     </p>
 
     <div class="comment tryit" id="live">
       <p class="comment-head">
-        <span class="who"><MerliveMark size={16} /><span><b>victorsaly</b> attached the page itself: the one file Merlive wrote for that block</span></span>
+        <span class="who"><MerliveMark size={16} /><span><b>victorsaly</b> attached the page itself: the one file Merlive wrote for the flowchart</span></span>
       </p>
       <div class="comment-body">
         <iframe src="/merlive/example" title="The page Merlive wrote for the purchase order approval flow" loading="lazy"></iframe>
@@ -177,7 +218,7 @@ const data = [
   </section>
 
   <section id="files" class="files wrap" aria-labelledby="files-title">
-    <h2 id="files-title" class="files-title">Files changed <span class="count">7</span></h2>
+    <h2 id="files-title" class="files-title">Files changed <span class="count">8</span></h2>
 
     <article class="hunk" aria-labelledby="h-odd">
       <header class="hunk-head">
@@ -191,7 +232,24 @@ const data = [
           <li class="del"><span class="visually-hidden">Removed: </span>You push boxes about with longer arrows and links nobody sees.</li>
           <li><span class="visually-hidden">Added: </span>One sentence to your agent. Your Mermaid stays as you wrote it.</li>
           <li><span class="visually-hidden">Added: </span>The main path straight, every box the same size, lines that turn at right angles and go round boxes.</li>
-          <li><span class="visually-hidden">Added: </span>One page for each flowchart, in a <code>diagrams</code> folder beside your Markdown file.</li>
+          <li><span class="visually-hidden">Added: </span>A rhombus, a cylinder or a hexagon stays the shape you drew, in the footprint every box shares.</li>
+          <li><span class="visually-hidden">Added: </span>An icon you wrote into a label is drawn, from Merlive's own set. A box or a link you styled keeps its broken or heavy line, in your design's nearest colour.</li>
+          <li><span class="visually-hidden">Added: </span>One page for each diagram, in a <code>diagrams</code> folder beside your Markdown file.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-kinds">
+      <header class="hunk-head">
+        <h3 id="h-kinds">Flowcharts, state diagrams, sequence diagrams</h3>
+        <code>@@ flowchart, stateDiagram-v2, sequenceDiagram @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>A flowchart and a state diagram are boxes and links, so both are placed by the same rules.</li>
+          <li>A sequence diagram has rules of its own: participants an even step apart, one message to a row, words off every lifeline. <a href={`${skill.repo}/blob/main/docs/SEQUENCE.md`}>Read them</a></li>
+          <li>A sequence page goes through the messages one at a time. Nothing moves until the reader asks.</li>
+          <li>Every other kind in the same file is left exactly as you wrote it, and Merlive names each one it leaves.</li>
         </ul>
       </div>
     </article>
@@ -203,7 +261,7 @@ const data = [
       </header>
       <div class="hunk-body">
         <ul class="adds">
-          <li>Seven rules for placement and two for colour run before anything is written. <a href={`${skill.repo}/blob/main/docs/PLACEMENT.md`}>Read the rules</a></li>
+          <li>Seven rules for placement and two for colour run before a flowchart or a state diagram is written. A sequence diagram has seven of its own. <a href={`${skill.repo}/blob/main/docs/PLACEMENT.md`}>Read the rules</a></li>
           <li>A diagram that breaks one is not written. The message names the rule, where it broke, and what to change in the Mermaid.</li>
           <li><code>--check</code> says what would be drawn and writes nothing.</li>
           <li>The rules are Merlive's. A design cannot switch them off.</li>
@@ -280,8 +338,8 @@ const data = [
       </header>
       <div class="hunk-body">
         <ul class="adds">
-          <li class="del"><span class="visually-hidden">Not yet: </span>Flowcharts only. Sequence, state, class and the other kinds are left as Mermaid, and Merlive names each one it leaves.</li>
-          <li class="del"><span class="visually-hidden">Not yet: </span>Not every part of a flowchart is read. What is drawn and what is not is listed feature by feature, and the tests hold that list to the code. <a href={`${skill.repo}/blob/main/docs/COVERAGE.md`}>Read the list</a></li>
+          <li class="del"><span class="visually-hidden">Not yet: </span>Class diagrams, timelines, charts and the other kinds. They are left as Mermaid.</li>
+          <li class="del"><span class="visually-hidden">Not yet: </span>Not every part of a diagram is read. What is drawn and what is not is listed feature by feature, for each kind, and the tests hold that list to the code. <a href={`${skill.repo}/blob/main/docs/COVERAGE.md`}>Read the list</a></li>
           <li class="del"><span class="visually-hidden">Not yet: </span>A long flow written left to right can come out wider than a screen. Merlive says so when it does.</li>
         </ul>
       </div>
@@ -485,8 +543,13 @@ const data = [
   .cols span:last-child {
     box-shadow: inset 0 -6px 0 var(--mark);
   }
+  /* One row for each kind of diagram, ruled apart as the rows of SideShot's table are. */
   .row {
     margin: 0;
+    border-bottom: var(--hair) solid var(--rule);
+  }
+  .row:last-child {
+    border-bottom: 0;
   }
   .row figcaption {
     padding: 12px 14px;
