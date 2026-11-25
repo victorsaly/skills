@@ -2,8 +2,7 @@
 // Why: Merlive's landing page is built as SideShot's is, so the two read as one family: a title that is the
 // sentence you say to your agent, a real before and after first (the same Mermaid block as Mermaid draws it and
 // as Merlive does, once for each kind of diagram it draws), the page Merlive wrote to try, what it does as
-// hunks, and the install command as the line that merges. Merlive is not released yet, and the page says so
-// wherever a reader decides.
+// hunks, and the install command as the line that merges.
 import { getEntry } from 'astro:content';
 import Frame from '../layouts/Frame.astro';
 import { person } from '../lib/person';
@@ -71,7 +70,7 @@ const pairs = [
 
 const site = 'https://skills.victorsaly.com';
 const description =
-  'Turns the Mermaid in your Markdown into diagrams that look planned, in your own colours, that readers can step through: flowcharts, state diagrams and sequence diagrams. For Claude Code, Codex, Cursor or any agent. Version 0.1.0, not released yet.';
+  'Turns the Mermaid in your Markdown into diagrams that look planned, in your own colours, that readers can step through: flowcharts, state diagrams and sequence diagrams. For Claude Code, Codex, Cursor or any agent.';
 // What search engines are told: only what the page shows. Free, MIT, source on GitHub; no ratings, no counts.
 const data = [
   {
@@ -119,9 +118,9 @@ const data = [
       <span class="plain">Your Mermaid diagrams, placed by rule and made live.</span>
     </h1>
     <p class="meta">
-      <span class="pill"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M6 8.5v7"></path><path d="M18 6v.01"></path><path d="M18 11v.01"></path></svg>Draft</span>
+      <span class="pill"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M6 8.5v7"></path><path d="M18 15.5V9a3 3 0 0 0-3-3h-4"></path><path d="m13 3.5-2.5 2.5 2.5 2.5"></path></svg>Open</span>
       <span><b>victorsaly</b> wants to merge <code>merlive</code> into <code>your-agent</code></span>
-      <span class="state">{example.version}, not released yet</span>
+      <span class="state">{example.version}</span>
     </p>
     <p class="lede">
       <b>Mermaid is the easy way to write a diagram and an odd way to look at one.</b> Your agent keeps your Mermaid
@@ -193,7 +192,7 @@ const data = [
           <li>The state diagram is placed by the same rules: its path straight, the way back to Draft round one side, each line's words beside it</li>
           <li>The sequence diagram names each participant once, an even step apart, with each message's words off every lifeline</li>
         </ul>
-        <p class="md-sub">Before: Mermaid {example.mermaid}, as it comes. After: Merlive {example.version}, not released yet, in colours it read from this site. Each block is the same on both sides, and nobody edited one. Open a picture for its full size.</p>
+        <p class="md-sub">Before: Mermaid {example.mermaid}, as it comes. After: Merlive {example.version}, in colours it read from this site. Each block is the same on both sides, and nobody edited one. Open a picture for its full size.</p>
       </div>
     </div>
     <p class="caption">
@@ -334,7 +333,7 @@ const data = [
     <article class="hunk" aria-labelledby="h-not-yet">
       <header class="hunk-head">
         <h3 id="h-not-yet">What it does not do yet</h3>
-        <code>@@ {example.version}, not released yet @@</code>
+        <code>@@ {example.version} @@</code>
       </header>
       <div class="hunk-body">
         <ul class="adds">
@@ -350,7 +349,7 @@ const data = [
     <h2 id="merge-title">Merge <MerliveWordmark /> into your agent</h2>
     <p class="checks">
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
-      <span>MIT licence. Needs Node 22 and nothing else. A draft: {example.version} is not released yet, so the command installs what is on the main branch today.</span>
+      <span>MIT licence. Needs Node 22 and nothing else.</span>
     </p>
     <InstallLine command={skill.install} label="Install Merlive" />
     <p class="then">Then ask: <q>Merlive docs/orders.md.</q> The first time, it reads your site's colours and sets itself up.</p>
@@ -404,17 +403,15 @@ const data = [
   .meta b {
     color: var(--ink);
   }
-  /* A draft is not open yet, so its pill is ink on paper: marigold is kept for what is open, added or after. */
   .pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: var(--paper);
-    color: var(--ink);
-    border: var(--hair) solid var(--ink);
+    background: var(--mark);
+    color: var(--mark-ink);
     font-weight: 700;
     font-size: 0.95rem;
-    padding: 3px 12px 3px 10px;
+    padding: 4px 12px 4px 10px;
     border-radius: 999px;
   }
   /* The same outline tag SideShot's page uses for Merged, saying where Merlive stands. */
