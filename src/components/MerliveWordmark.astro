@@ -1,0 +1,27 @@
+---
+// Why: the name as two halves, as SideShot's is: Mer, from the Mermaid it reads, in ink, and live, what it adds,
+// carrying the marigold. Marigold letters do not read on white, so on paper live is underlined in marigold; on
+// charcoal the letters themselves are marigold.
+---
+
+<span class="wordmark">Mer<span class="live">live</span></span>
+
+<style>
+  .wordmark {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .live {
+    text-decoration: underline;
+    text-decoration-color: var(--mark);
+    text-decoration-thickness: 0.17em;
+    text-underline-offset: 0.06em;
+    text-decoration-skip-ink: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .live {
+      color: var(--mark);
+      text-decoration: none;
+    }
+  }
+</style>

@@ -1,0 +1,742 @@
+---
+// Why: Merlive's landing page is built as SideShot's is, so the two read as one family: a title that is the
+// sentence you say to your agent, a real before and after first (the same Mermaid block as Mermaid draws it and
+// as Merlive does), the page Merlive wrote to try, what it does as hunks, and the install command as the line
+// that merges. Merlive is not released yet, and the page says so wherever a reader decides.
+import { getEntry } from 'astro:content';
+import Frame from '../layouts/Frame.astro';
+import { person } from '../lib/person';
+import InstallLine from '../components/InstallLine.astro';
+import MerliveMark from '../components/MerliveMark.astro';
+import MerliveWordmark from '../components/MerliveWordmark.astro';
+import example from '../data/merlive-example.json';
+
+const entry = await getEntry('skills', 'merlive');
+if (!entry) throw new Error('src/content/skills/merlive.md is missing');
+const skill = entry.data;
+
+// One block of Mermaid, drawn twice: by Mermaid itself and by Merlive. Both pictures were taken at 2x; the sizes
+// here are theirs at 1x. src/data/merlive-example.json records which versions drew them and what setup printed.
+const at = `${skill.repo}/blob/${example.commit}`;
+const source = `${at}/examples/order-approval.md`;
+const pictures = {
+  mermaid: {
+    file: 'mermaid',
+    w: 415,
+    h: 921,
+    alt: 'Mermaid’s own drawing of a purchase order approval flow: the boxes drift left and right down the page, the two decisions are diamonds much larger than the boxes round them, and curved lines sweep back up to Validate order and across to Revise order.',
+  },
+  merlive: {
+    file: 'merlive',
+    w: 376,
+    h: 764,
+    alt: 'Merlive’s drawing of the same flow: Submit order down to Order placed in one straight column of boxes the same size, the two decisions as boxes with cut corners, and Revise order to one side, joined by lines that turn at right angles.',
+  },
+};
+
+const site = 'https://skills.victorsaly.com';
+const description =
+  'Turns the Mermaid flowcharts in your Markdown into diagrams that look planned, in your own colours, that readers can step through. For Claude Code, Codex, Cursor or any agent. Version 0.1.0, not released yet.';
+// What search engines are told: only what the page shows. Free, MIT, source on GitHub; no ratings, no counts.
+const data = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Merlive',
+    description,
+    url: `${site}/merlive`,
+    image: `${site}/og/merlive.png`,
+    applicationCategory: 'DeveloperApplication',
+    applicationSubCategory: 'Agent Skill',
+    softwareVersion: example.version,
+    softwareRequirements: 'Node.js 22, a coding agent that reads Agent Skills',
+    license: 'https://opensource.org/licenses/MIT',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    sameAs: [skill.repo],
+    author: person,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Skills', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Merlive', item: `${site}/merlive` },
+    ],
+  },
+];
+---
+
+<Frame
+  title="Merlive: Mermaid flowcharts, placed by rule and made live"
+  description={description}
+  path="/merlive"
+  skill={{ name: skill.name, href: '/merlive' }}
+  repo={skill.repo}
+  card={{ path: '/og/merlive.png', alt: 'Merlive: Mermaid flowcharts, placed by rule and made live. One purchase order flow drawn twice, by Mermaid and by Merlive.' }}
+  data={data}
+>
+  <MerliveMark slot="skill-mark" size={14} />
+
+  <section class="head wrap" aria-labelledby="title">
+    <h1 id="title">
+      <span class="say"><span class="ask">“</span><MerliveWordmark /> this document<span class="ask">”</span></span>{' '}
+      <span class="plain">Your Mermaid flowcharts, placed by rule and made live.</span>
+    </h1>
+    <p class="meta">
+      <span class="pill"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M6 8.5v7"></path><path d="M18 6v.01"></path><path d="M18 11v.01"></path></svg>Draft</span>
+      <span><b>victorsaly</b> wants to merge <code>merlive</code> into <code>your-agent</code></span>
+      <span class="state">{example.version}, not released yet</span>
+    </p>
+    <p class="lede">
+      <b>Mermaid is the easy way to write a diagram and an odd way to look at one.</b> Your agent keeps your Mermaid
+      as the source, places every box by rule, and writes a page readers can step through, in your own colours.
+    </p>
+    <div class="cta">
+      <InstallLine command={skill.install} label="Install Merlive" />
+      <p class="works">
+        For any agent that reads Agent Skills: Claude Code, Codex, Cursor, OpenCode. <a href={skill.repo}>Read the source</a>
+      </p>
+    </div>
+  </section>
+
+  <nav class="tabs wrap" aria-label="On this page">
+    <a href="#conversation" class="on">Conversation</a>
+    <a href="#files">Files changed <span class="count">7</span></a>
+    <a href="#merge">Merge</a>
+  </nav>
+
+  <section id="conversation" class="conversation wrap" aria-labelledby="conversation-title">
+    <h2 id="conversation-title" class="visually-hidden">What Merlive draws from a Mermaid flowchart</h2>
+    <div class="comment">
+      <p class="comment-head">
+        <span class="who"><MerliveMark size={16} /><span><b>Merlive</b> drew this from the first Mermaid block of <a class="nowrap" href={source}>order-approval.md</a>, its own example</span></span>
+      </p>
+      <div class="comment-body">
+        <div class="md-row">
+          <h3 class="md-h2">Before and after</h3>
+          <p class="md-strong">One Mermaid block, drawn twice</p>
+        </div>
+        <div class="table" role="group" aria-label="The same flowchart as Mermaid draws it and as Merlive draws it">
+          <div class="cols" aria-hidden="true"><span></span><span>Mermaid</span><span>Merlive</span></div>
+          <figure class="row">
+            <figcaption>
+              <b>Purchase order approval</b>
+              <span>{example.boxes} boxes, {example.links} links</span>
+            </figcaption>
+            <a href="/merlive/order/mermaid.png" class="shot">
+              <img
+                src="/merlive/order/mermaid.png"
+                width={pictures.mermaid.w}
+                height={pictures.mermaid.h}
+                style={`--w: ${pictures.mermaid.w}px`}
+                loading="eager"
+                alt={pictures.mermaid.alt}
+              />
+            </a>
+            <a href="/merlive/order/merlive.png" class="shot">
+              <img
+                src="/merlive/order/merlive.png"
+                width={pictures.merlive.w}
+                height={pictures.merlive.h}
+                style={`--w: ${pictures.merlive.w}px`}
+                loading="eager"
+                alt={pictures.merlive.alt}
+              />
+            </a>
+          </figure>
+        </div>
+        <p class="md-strong">What changed</p>
+        <ul class="notes">
+          <li>The main path, from Submit order to Order placed, runs in one straight line</li>
+          <li>Every box is the same size, and a decision is a box with cut corners, not a diamond twice as big</li>
+          <li>The ways back to Revise order turn at right angles and go round the boxes</li>
+        </ul>
+        <p class="md-sub">Before: Mermaid {example.mermaid}, as it comes. After: Merlive {example.version}, not released yet, in colours it read from this site. The block is the same, and nobody edited it. Open a picture for its full size.</p>
+      </div>
+    </div>
+    <p class="caption">
+      A real pair from one block of Mermaid. Nobody placed a box and nobody chose a colour. Merlive read this site's
+      own stylesheet and found the white page, the black text, the marigold and the typeface. The colours for the
+      kinds of box are its own, checked against that page.
+    </p>
+
+    <div class="comment tryit" id="live">
+      <p class="comment-head">
+        <span class="who"><MerliveMark size={16} /><span><b>victorsaly</b> attached the page itself: the one file Merlive wrote for that block</span></span>
+      </p>
+      <div class="comment-body">
+        <iframe src="/merlive/example" title="The page Merlive wrote for the purchase order approval flow" loading="lazy"></iframe>
+        <p class="md-strong"><a href="/merlive/example">Open the page on its own</a></p>
+        <p class="md-sub">
+          Not a picture. Pick a box or a line to see only what it connects to. Walk the {example.steps} steps its author
+          wrote into the Mermaid. Nothing moves until you press <q>Play this path</q>. One file, with nothing fetched.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="files" class="files wrap" aria-labelledby="files-title">
+    <h2 id="files-title" class="files-title">Files changed <span class="count">7</span></h2>
+
+    <article class="hunk" aria-labelledby="h-odd">
+      <header class="hunk-head">
+        <h3 id="h-odd">Instead of a diagram that looks odd</h3>
+        <code>@@ "Merlive docs/orders.md" @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li class="del"><span class="visually-hidden">Removed: </span>The main path wanders, because nothing says which path is the main one.</li>
+          <li class="del"><span class="visually-hidden">Removed: </span>A decision is a diamond twice the size of the boxes round it.</li>
+          <li class="del"><span class="visually-hidden">Removed: </span>You push boxes about with longer arrows and links nobody sees.</li>
+          <li><span class="visually-hidden">Added: </span>One sentence to your agent. Your Mermaid stays as you wrote it.</li>
+          <li><span class="visually-hidden">Added: </span>The main path straight, every box the same size, lines that turn at right angles and go round boxes.</li>
+          <li><span class="visually-hidden">Added: </span>One page for each flowchart, in a <code>diagrams</code> folder beside your Markdown file.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-rules">
+      <header class="hunk-head">
+        <h3 id="h-rules">Placed by rule, and the rules are checked</h3>
+        <code>@@ --check @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>Seven rules for placement and two for colour run before anything is written. <a href={`${skill.repo}/blob/main/docs/PLACEMENT.md`}>Read the rules</a></li>
+          <li>A diagram that breaks one is not written. The message names the rule, where it broke, and what to change in the Mermaid.</li>
+          <li><code>--check</code> says what would be drawn and writes nothing.</li>
+          <li>The rules are Merlive's. A design cannot switch them off.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-colours">
+      <header class="hunk-head">
+        <h3 id="h-colours">Your colours, without choosing any</h3>
+        <code>@@ --setup @@</code>
+      </header>
+      <div class="hunk-body split">
+        <ul class="adds">
+          <li>Once for a project, it reads the site your diagrams sit on: the project's own stylesheet, or an address you give it.</li>
+          <li>It takes the page, text and accent colours, the typeface, the corner, and whether there is a dark mode. It makes the rest a diagram needs from those.</li>
+          <li>Two rules hold any colours to account. Words can be read. Kinds of box can be told apart, also by people who do not see red and green apart.</li>
+          <li>What it reads and would fail, it puts right and tells you. You never type a colour code.</li>
+        </ul>
+        <figure class="printed">
+          <pre><code>{example.setup.join('\n')}</code></pre>
+          <figcaption>What <code>--setup</code> printed when it read this site's stylesheet.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-live">
+      <header class="hunk-head">
+        <h3 id="h-live">A page readers can use</h3>
+        <code>@@ %% step: The revision loop | loop 1 | … @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>A reader picks a box or a line and sees only what it connects to.</li>
+          <li>Steps are a walkthrough the author writes once. Readers go through them one at a time.</li>
+          <li>Nothing moves until the reader presses play. Then one dot follows the path.</li>
+          <li>One file, with nothing fetched. It works offline, and prints with its notes at the end.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-source">
+      <header class="hunk-head">
+        <h3 id="h-source">The Mermaid stays the source</h3>
+        <code>@@ %% note C: Compares the order total with what is left in the budget. @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>No script changes the Mermaid you wrote. It still renders anywhere Mermaid does.</li>
+          <li>Notes, steps and the main path are <code>%%</code> comments in the block, which every other renderer ignores.</li>
+          <li>They say what you mean, never where a box goes. To change a diagram, change the Mermaid and draw again.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-agents">
+      <header class="hunk-head">
+        <h3 id="h-agents">One skill, any agent</h3>
+        <code>@@ SKILL.md @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li>Written in the open Agent Skills format: Claude Code, Codex, Cursor, OpenCode and others read it.</li>
+          <li>It needs Node 22 and nothing else. No packages and no browser. The network is used only when you give setup an address to read.</li>
+          <li><code>--format svg</code> writes a still picture, for a wiki or anywhere a page cannot be opened.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="hunk" aria-labelledby="h-not-yet">
+      <header class="hunk-head">
+        <h3 id="h-not-yet">What it does not do yet</h3>
+        <code>@@ {example.version}, not released yet @@</code>
+      </header>
+      <div class="hunk-body">
+        <ul class="adds">
+          <li class="del"><span class="visually-hidden">Not yet: </span>Flowcharts only. Sequence, state, class and the other kinds are left as Mermaid, and Merlive names each one it leaves.</li>
+          <li class="del"><span class="visually-hidden">Not yet: </span>Not every part of a flowchart is read. What is drawn and what is not is listed feature by feature, and the tests hold that list to the code. <a href={`${skill.repo}/blob/main/docs/COVERAGE.md`}>Read the list</a></li>
+          <li class="del"><span class="visually-hidden">Not yet: </span>A long flow written left to right can come out wider than a screen. Merlive says so when it does.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section id="merge" class="merge wrap" aria-labelledby="merge-title">
+    <h2 id="merge-title">Merge <MerliveWordmark /> into your agent</h2>
+    <p class="checks">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg>
+      <span>MIT licence. Needs Node 22 and nothing else. A draft: {example.version} is not released yet, so the command installs what is on the main branch today.</span>
+    </p>
+    <InstallLine command={skill.install} label="Install Merlive" />
+    <p class="then">Then ask: <q>Merlive docs/orders.md.</q> The first time, it reads your site's colours and sets itself up.</p>
+    <details class="other">
+      <summary>Claude Code plugin, or by hand</summary>
+      <div class="other-body">
+        <p>As a Claude Code plugin, so updates come through <code>/plugin</code>:</p>
+        <pre><code>/plugin marketplace add victorsaly/merlive
+/plugin install merlive@merlive</code></pre>
+        <p>By hand, with no agent: copy <code>skills/merlive/</code> from <a href={skill.repo}>the repo</a> and run its script with Node; the README lists every option.</p>
+      </div>
+    </details>
+  </section>
+</Frame>
+
+<style>
+  .head {
+    padding-top: clamp(20px, 2vw, 28px);
+    display: grid;
+    gap: 12px;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 1.3rem + 4.4vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .say {
+    display: block;
+  }
+  .ask {
+    color: var(--hush);
+    font-weight: 400;
+  }
+  /* What Merlive is, in plain words, before anything clever: the second line of the heading. */
+  .plain {
+    display: block;
+    margin-top: 10px;
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    color: var(--quiet);
+  }
+  .meta b {
+    color: var(--ink);
+  }
+  /* A draft is not open yet, so its pill is ink on paper: marigold is kept for what is open, added or after. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper);
+    color: var(--ink);
+    border: var(--hair) solid var(--ink);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 3px 12px 3px 10px;
+    border-radius: 999px;
+  }
+  /* The same outline tag SideShot's page uses for Merged, saying where Merlive stands. */
+  .state {
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--ink);
+    border: var(--hair) solid var(--ink);
+    padding: 1px 10px;
+  }
+  .lede {
+    max-width: 100ch;
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.25rem);
+  }
+  .cta {
+    display: grid;
+    gap: 12px;
+    max-width: 720px;
+  }
+  .works {
+    font-size: 0.95rem;
+    color: var(--quiet);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 12px;
+    border-bottom: var(--hair) solid var(--ink);
+    overflow-x: auto;
+  }
+  .tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px clamp(10px, 2vw, 16px);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: var(--strong) solid transparent;
+    margin-bottom: -2px;
+  }
+  .tabs a:hover {
+    border-bottom-color: var(--rule);
+  }
+  .tabs a.on {
+    font-weight: 700;
+    border-bottom-color: var(--mark);
+  }
+  .count {
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: var(--hair) solid currentColor;
+    padding: 0 7px;
+    line-height: 1.5;
+  }
+
+  .conversation {
+    padding-top: 20px;
+    scroll-margin-top: 16px;
+  }
+  .comment {
+    border-top: var(--strong) solid var(--ink);
+    border-bottom: var(--hair) solid var(--ink);
+  }
+  .comment-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: var(--hair) solid var(--rule);
+    font-size: 0.95rem;
+    color: var(--quiet);
+  }
+  .comment-head b {
+    color: var(--ink);
+  }
+  .who {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  .comment-body {
+    padding: 10px 0 18px;
+    display: grid;
+    gap: 10px;
+  }
+  .md-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding-bottom: 6px;
+    border-bottom: var(--hair) solid var(--rule);
+  }
+  .md-h2 {
+    font-size: 1.5rem;
+  }
+  .md-strong {
+    font-weight: 700;
+  }
+  .table {
+    display: flex;
+    flex-direction: column;
+    border: var(--hair) solid var(--rule);
+  }
+  .cols,
+  .row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr 1fr;
+  }
+  .cols span {
+    padding: 8px 14px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-bottom: var(--hair) solid var(--rule);
+  }
+  .cols span + span {
+    border-left: var(--hair) solid var(--rule);
+  }
+  /* Merlive's column is the after: it carries the marigold bar. */
+  .cols span:last-child {
+    box-shadow: inset 0 -6px 0 var(--mark);
+  }
+  .row {
+    margin: 0;
+  }
+  .row figcaption {
+    padding: 12px 14px;
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    font-size: 0.95rem;
+  }
+  .row figcaption span {
+    color: var(--quiet);
+    font-size: 0.85rem;
+  }
+  .shot {
+    border-left: var(--hair) solid var(--rule);
+    padding: 12px;
+    display: grid;
+    place-items: start center;
+  }
+  /* Each drawing shows at its own size, so the two can be compared: Mermaid's is the larger because it is. */
+  .shot img {
+    width: min(var(--w), 100%);
+    height: auto;
+    border: var(--hair) solid var(--rule);
+    background: #fff;
+  }
+  .notes {
+    margin: 0;
+    padding-left: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .md-sub {
+    font-size: 0.85rem;
+    color: var(--quiet);
+  }
+  .caption {
+    margin-top: 16px;
+    max-width: var(--measure);
+    color: var(--quiet);
+  }
+  /* The page itself comes second, a comment of its own under the pictures. */
+  .tryit {
+    margin-top: clamp(28px, 4vw, 44px);
+  }
+  /* Tall enough for the whole flow and its steps, so the frame itself never scrolls. */
+  .tryit iframe {
+    display: block;
+    width: 100%;
+    height: 980px;
+    border: var(--hair) solid var(--rule);
+    background: #fff;
+  }
+
+  .files {
+    margin-top: clamp(56px, 8vw, 96px);
+    display: grid;
+    gap: 28px;
+    scroll-margin-top: 16px;
+  }
+  .files-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+    letter-spacing: -0.02em;
+    padding-top: 18px;
+    border-top: var(--heavy) solid var(--ink);
+  }
+  .hunk {
+    border: var(--hair) solid var(--ink);
+  }
+  .hunk-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding: 12px 18px;
+    background: var(--wash);
+    border-bottom: var(--hair) solid var(--ink);
+  }
+  .hunk-head code {
+    color: var(--hush);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+  .hunk-head h3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+    letter-spacing: -0.01em;
+  }
+  .hunk-body {
+    padding: 8px 0;
+  }
+  .hunk-body.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 8px 32px;
+    align-items: start;
+  }
+  .adds {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Each line is an added line of the diff: a marigold + gutter, then the words. */
+  .adds li {
+    position: relative;
+    padding: 8px 18px 8px calc(2.4rem + 14px);
+    max-width: calc(var(--measure) + 2.4rem + 14px);
+  }
+  .adds li::before {
+    content: '+';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2.4rem;
+    padding-top: 8px;
+    font-family: var(--mono);
+    font-weight: 700;
+    text-align: center;
+    color: var(--mark-ink);
+    background: var(--mark);
+  }
+  /* A flag is one word: --check broken after its dashes on a phone reads as two. */
+  .adds code {
+    white-space: nowrap;
+  }
+  /* A removed line: what Merlive takes off your hands, or does not do yet, in the diff's grey, never marigold. */
+  .adds li.del {
+    max-width: none;
+    color: var(--quiet);
+    background: var(--wash);
+  }
+  .adds li.del::before {
+    content: '−';
+    color: var(--hush);
+    background: var(--wash);
+  }
+  /* What the script printed, word for word. Its long lines wrap, so the end of each can be read on a phone. */
+  .printed {
+    margin: 10px 18px 10px 0;
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+  .printed pre {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .printed figcaption {
+    font-size: 0.9rem;
+    color: var(--quiet);
+  }
+
+  .merge {
+    margin-top: clamp(56px, 8vw, 96px);
+    padding-top: 22px;
+    border-top: var(--heavy) solid var(--ink);
+    display: grid;
+    gap: 16px;
+    max-width: 820px;
+    margin-left: max(var(--gutter), calc((100% - var(--page)) / 2));
+    scroll-margin-top: 16px;
+  }
+  .merge h2 {
+    font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3rem);
+    letter-spacing: -0.025em;
+  }
+  .checks {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    font-weight: 700;
+  }
+  .checks svg {
+    flex: none;
+    margin-top: 4px;
+  }
+  .then {
+    color: var(--quiet);
+  }
+  .other {
+    border-top: var(--hair) solid var(--rule);
+    padding-top: 12px;
+  }
+  .other summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .other-body {
+    display: grid;
+    gap: 10px;
+    padding-top: 12px;
+  }
+  pre {
+    margin: 0;
+    padding: 14px 16px;
+    background: var(--wash);
+    border: var(--hair) solid var(--rule);
+    overflow-x: auto;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    .tabs a {
+      padding-inline: 8px;
+      font-size: 1rem;
+    }
+    .tabs .count {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .table {
+      border: 0;
+    }
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cols span:first-child {
+      display: none;
+    }
+    .cols span + span {
+      border-left: 0;
+    }
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .row figcaption {
+      grid-column: 1 / -1;
+      grid-template-columns: auto auto;
+      justify-content: start;
+      gap: 8px;
+      padding: 12px 0 4px;
+    }
+    .shot {
+      border-left: 0;
+      padding: 6px 6px 12px 0;
+    }
+    .shot + .shot {
+      padding: 6px 0 12px 6px;
+    }
+    /* A page inside a page takes the scroll from a thumb, as on dbtour's page: on a phone it opens on its own. */
+    .tryit iframe {
+      display: none;
+    }
+    .hunk-body.split {
+      grid-template-columns: 1fr;
+    }
+    .printed {
+      margin: 4px 14px 10px;
+    }
+  }
+</style>
