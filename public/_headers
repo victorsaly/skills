@@ -2,3 +2,7 @@
 # list in a search, where its title ("Shop") would say nothing of where it came from.
 /dbtour/example
   X-Robots-Tag: noindex
+# The live example is the page Merlive wrote, carried as it is: for people to try, not a page of this site to
+# list in a search, where its title ("Purchase order approval") would say nothing of where it came from.
+/merlive/example
+  X-Robots-Tag: noindex

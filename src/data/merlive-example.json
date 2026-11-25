@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "released": false,
+  "commit": "affce21",
+  "mermaid": "11.16.1",
+  "drawn": "2026-11-25",
+  "boxes": 8,
+  "links": 9,
+  "steps": 5,
+  "setup": [
+    "read src/styles/global.css",
+    "  found: page #ffffff, text #000000, accent #ffc400, face 'Atkinson Hyperlegible Next Variable', in light and dark",
+    "  changed: accent #ffc400 is 1.6 to 1 on the light page, too close to it for a line; using #b38900, the same hue made to stand out",
+    "  made by Merlive: a box's fill and edge, lines and quiet text, from your page and text colours",
+    "  made by Merlive: the colours for kinds of box (decision, rework and the rest) are Merlive's, held to your page",
+    "wrote merlive.design.json"
+  ],
+  "state": {
+    "boxes": 5,
+    "links": 5
+  },
+  "sequence": {
+    "participants": 3,
+    "messages": 4
+  }
+}
