@@ -92,7 +92,7 @@ const cards = {
   </style>
   <div class="text">
     <div class="brand">${merliveMark(60)}<span>Mer<span class="shot">live</span></span></div>
-    <h1>Your Mermaid flowcharts, placed by rule and made live.</h1>
+    <h1>Your Mermaid diagrams, placed by rule and made live.</h1>
     <p>The main path straight, boxes of one size, your own colours. For Claude Code, Codex, Cursor and any coding agent.</p>
     <span class="url">skills.victorsaly.com/merlive</span>
   </div>

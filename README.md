@@ -7,7 +7,7 @@ landing page per skill. Each skill lives in its own repo and is installed from t
 |---|---|---|
 | SideShot: before and after for every pull request | [/sideshot](https://skills.victorsaly.com/sideshot) | [victorsaly/sideshot](https://github.com/victorsaly/sideshot) |
 | dbtour: your database, documented where you work | [/dbtour](https://skills.victorsaly.com/dbtour) | [victorsaly/dbtour](https://github.com/victorsaly/dbtour) |
-| Merlive: Mermaid flowcharts, placed by rule and made live (0.1.0, not released yet) | [/merlive](https://skills.victorsaly.com/merlive) | [victorsaly/merlive](https://github.com/victorsaly/merlive) |
+| Merlive: Mermaid diagrams, placed by rule and made live (0.1.0, not released yet) | [/merlive](https://skills.victorsaly.com/merlive) | [victorsaly/merlive](https://github.com/victorsaly/merlive) |
 
 ## Run it
 
